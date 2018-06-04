@@ -205,3 +205,41 @@ i {
   background:linear-gradient(#8f8f8f, #a3a3a3);
   background-image:url('../images/aluminum-bg-1920x1080.jpg');
 }
+
+#pig-display {
+  height:20vh;
+  background:url('../images/trans_wrap.png');
+  width: 90%;
+  position:relative;
+  bottom: 55%;
+  z-index: 400;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.pig-wrapper {
+  display: flex;
+  justify-content:space-between;
+}
+
+.pig-1 {
+  background-image:url('../images/robopig.svg');
+  background-color:white;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  border: 2px solid rgba(20, 20, 60, .8);
+  width:20%;
+  height:10rem;
+}
+
+.pig-2 {
+  background-image:url('../images/robopig2.svg');
+  background-color:white;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  border: 2px solid rgba(20, 20, 60, .8);
+  width:20%;
+  height:10rem;
+}

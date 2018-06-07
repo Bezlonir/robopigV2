@@ -1,27 +1,31 @@
-console.log(Pigs.pig1Stats);
-Pigs.pig1Stats.hp -= 20;
-console.log(Pigs.pig1Stats);
-
 var viewDice = document.querySelector('.dice');
 var currentDice = 0;
-console.log(viewDice);
-viewDice.src = Dice.diceIndex.dice[0].diceIMG;
+
+var baseH = window.innerHeight;
+var root = document.querySelector('html');
+var fontFactor = (baseH / 45).toFixed(2);
+root.style.fontSize = `${fontFactor.toString()}px`;
+
+var dice = document.querySelector('.dice');
+
 window.addEventListener('keypress', function(k) {
-  console.log(k);
   if (k.charCode === 100) {
-    if (currentDice <5) {
-      currentDice++;
-    } else {
-      currentDice = 0;
-    }
-    viewDice.src = Dice.diceIndex.dice[currentDice].diceIMG;
+    Pigs.pig1.toggleTooter();
   }
-  if (k.charCode === 97) {
-    if (currentDice >0) {
-      currentDice--;
-    } else {
-      currentDice = 5;
-    }
-    viewDice.src = Dice.diceIndex.dice[currentDice].diceIMG;
-  }
+
 });
+
+dice.addEventListener('click', function() {
+  var roll = Dice.diceIndex.rollDice();
+  viewDice.src = Dice.diceIndex.dice[roll.index].diceIMG;
+})
+
+window.addEventListener('resize', resizeText);
+
+function resizeText() {
+  var baseH = window.innerHeight;
+  var root = document.querySelector('html');
+  var fontFactor = (baseH / 45).toFixed(2);
+  root.style.fontSize = `${fontFactor.toString()}px`;
+
+}

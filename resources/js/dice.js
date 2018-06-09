@@ -35,6 +35,12 @@ Dice.diceIndex = {
   ],
   rollDice: function() {
     var diceRoll = Math.floor(Math.random() * 6);
+    var diceObj = document.querySelector('.dice');
+    //make dice object shake after rolling
+    diceObj.classList.add('shake');
+    window.setTimeout(function(){
+      diceObj.classList.remove('shake');
+    }, 200);
     return this.dice[diceRoll];
   }
 };

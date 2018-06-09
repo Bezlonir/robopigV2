@@ -86,9 +86,7 @@ Pigs.pig1 = {
 
   // set the transparency for RoboPig's green eye glow
   setEyeTrans: function(nrg) {
-    console.log(this.imageFrame.pigEyeImgClass);
     const eyeObj = document.querySelector(this.imageFrame.pigEyeImgClass);
-    console.dir(eyeObj);
     eyeObj.style.opacity = `${(nrg/100).toFixed(2)}`;
   }
 

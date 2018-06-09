@@ -11,6 +11,10 @@ var dice = document.querySelector('.dice');
 window.addEventListener('keypress', function(k) {
   if (k.charCode === 100) {
     Pigs.pig1.toggleTooter();
+  } else if (k.charCode === 97) {
+    Pigs.pig1.toggleRooter();
+  } else if (k.charCode === 115) {
+    Pigs.pig1.toggleArmor();
   }
 
 });

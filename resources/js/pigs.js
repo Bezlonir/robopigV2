@@ -1,42 +1,86 @@
 var Pigs = {};
+var path = "'./resources/images/";
 
 Pigs.pig1 = {
+  statObject: 'pig1Stats',
   imageFrame: {
-    clear: "url('./resources/images/trans_wrap.png')",
-    pigImg: "url('./resources/images/robopig.svg')",
+    clear: `url(${path}trans_wrap.png')`,
+    pigImg: `url(${path}robopig.svg')`,
     pigImgClass: '.pig-1',
-    pigRooterImg: "url('./resources/images/roborooter.svg')",
+    pigRooterImg: `url(${path}roborooter.svg')`,
     pigRooterImgClass: '.pig-rooter-1',
-    pigTooterImg: "url('./resources/images/robotoot.svg')",
+    pigTooterImg: `url(${path}robotoot.svg')`,
     pigTooterImgClass: '.pig-tooter-1',
-    pigEyeImg: "url('./resources/images/pigeye1.png')",
+    pigArmorImg: `url(${path}robocake.svg')`,
+    pigArmorImgClass: '.pig-armor-1',
+    pigEyeImg: `url(${path}pigeye1.png')`,
     pigEyeImgClass: '.pig-eye-1'
   },
-  toggleRooter: function() {
-    var pigTemp = document.querySelector(this.imageFrame.pigRooterImgClass);
-    var hasRooter = Pigs.pig1Stats.hasRooter;
-    if (hasRooter) {
-      pigTemp.style.backgroundImage = this.imageFrame.clear;
+
+  // toggleProp works with Rooter, Tooter, and Pig Armor. to turn each on and off in both the model and the view.
+  toggleProp: function(imgUrl, CSSClass, toggleBool, maxTurns, currentTurns) {
+    //assign the relevant DOM object to modObj by looking up its class name
+    const modObj = document.querySelector(CSSClass);
+
+    // temporary boolean object for easy reference
+    let TtoggleBool = Pigs[this.statObject][toggleBool];
+
+    // if the inventory item was active, set frame to blank PNG, else set the style in the CSS selector passed by CSSClass to the url string indicated by imgUrl
+    if (TtoggleBool) {
+      modObj.style.backgroundImage = this.imageFrame.clear;
     } else {
-      pigTemp.style.backgroundImage = this.imageFrame.pigRooterImg;
+      modObj.style.backgroundImage = imgUrl;
+    };
+
+    // change the active status of inventory item
+    Pigs[this.statObject][toggleBool] = !TtoggleBool;
+    // set item use delay to maximum
+
+    if (Pigs[this.statObject][toggleBool]) {
+      Pigs[this.statObject][currentTurns] = Pigs[this.statObject][maxTurns];
     }
-    Pigs.pig1Stats.hasRooter = !hasRooter;
-    if (Pigs.pig1Stats.hasRooter) {
-      Pigs.pig1Stats.currentTurnsToRoot = Pigs.pig1Stats.turnsToRoot;
-    }
+
   },
+
+  // toggleRooter turns the RoboRooter on and off in the model and the view
+  toggleRooter: function() {
+    // send appropriate properties to toggleProp to toggle the activation status of RoboRooter
+
+    // create a link to the image frame object for this pig
+    const TimgFrame = this.imageFrame;
+    const modObj = document.querySelector(this.imageFrame.pigRooterImgClass);
+    modObj.style.backgroundImage = this.imageFrame.clear;
+    console.log(modObj.style.backgroundImage);
+    // send command to toggleProp
+    this.toggleProp(TimgFrame.pigRooterImg, TimgFrame.pigRooterImgClass, 'hasRooter', 'turnsToRoot', 'currentTurnsToRoot');
+  },
+
+  // toggleTooter turns the RoboTooter on and off in the model and the view
   toggleTooter: function() {
-    var pigTemp = document.querySelector(this.imageFrame.pigTooterImgClass);
-    var hasTooter = Pigs.pig1Stats.hasTooter;
-    if (hasTooter) {
-      pigTemp.style.backgroundImage = this.imageFrame.clear;
-    } else {
-      pigTemp.style.backgroundImage = this.imageFrame.pigTooterImg;
-    }
-    Pigs.pig1Stats.hasTooter = !hasTooter;
-    if (Pigs.pig1Stats.hasTooter) {
-      Pigs.pig1Stats.currentTurnsToToot = Pigs.pig1Stats.turnsToToot;
-    }
+    // send appropriate properties to toggleProp to toggle the activation status of RoboTooter
+
+    // create a link to the pig's stat object
+    const TstatObj = Pigs[this.statObject];
+    // create a link to the image frame object for this pig
+    const TimgFrame = this.imageFrame;
+
+    // send command to toggleProp
+    this.toggleProp(TimgFrame.pigTooterImg, TimgFrame.pigTooterImgClass, 'hasTooter', 'turnsToToot', 'currentTurnsToToot');
+  },
+  // toggle Armor turn the RoboCake Pig Armor on and off in the model and the view
+  toggleArmor: function() {
+    // send appropriate properties to toggleProp to toggle the activation status of RoboCake Pig Armor
+
+    // create a link to the pig's stat object
+    const TstatObj = Pigs[this.statObject];
+    // create a link to the image frame object for this pig
+    const TimgFrame = this.imageFrame;
+
+    // send command to toggleProp
+    this.toggleProp(TimgFrame.pigArmorImg, TimgFrame.pigArmorImgClass, 'hasArmor', 'turnsToArmor', 'currentTurnsToArmor');
+  },
+  chargeEnergy: function(nrg) {
+
   }
 
 }
@@ -47,12 +91,14 @@ Pigs.pig1Stats = {
   hasArmor: false,
   armorAbsorb: 0,
   armorUp: false,
+  turnsToArmor: 5,
+  currentTurnsToArmor: 0,
   hasRooter: false,
   turnsToRoot: 3,
-  currentTurnsToRoot: 3,
+  currentTurnsToRoot: 0,
   hasTooter: false,
   turnsToToot: 3,
-  currentTurnsToToot: 3,
+  currentTurnsToToot: 0,
   turnsToCupcake: 4,
   currentTurnsToCupcake: 4,
   inBattle: false,
@@ -75,12 +121,12 @@ Pigs.pig1Stats = {
 
 Pigs.pig2 = {
   imageFrame: {
-    clear: "url('./resources/images/trans_wrap.png')",
-    pigImg: "url('./resources/images/robopig2.svg')",
+    clear: `url(${path}trans_wrap.png')`,
+    pigImg: `url(${path}robopig2.svg')`,
     pigImgClass: 'pig-2',
-    pigRooterImg: "url('./resources/images/roborooter2.svg')",
+    pigRooterImg: `url(${path}roborooter2.svg')`,
     pigRooterImgClass: 'pig-rooter-2',
-    pigEyeImg: "url('./resources/images/pigeye2.png')",
+    pigEyeImg: `url(${path}pigeye2.png')`,
     pigEyeImgClass: 'pig-eye-2'
   }
 }
@@ -91,6 +137,8 @@ Pigs.pig2Stats = {
   hasArmor: false,
   armorAbsorb: 0,
   armorUp: false,
+  turnsToArmor: 5,
+  currentTurnsToArmor: 5,
   hasRooter: false,
   turnsToRoot: 3,
   currentTurnsToRoot: 3,

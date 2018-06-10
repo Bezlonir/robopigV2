@@ -1,5 +1,6 @@
 var Dice = {};
 
+// diceIndex object contains an array of dice objects to be accessed by a random roll.
 Dice.diceIndex = {
   dice: [
     {
@@ -33,9 +34,12 @@ Dice.diceIndex = {
       diceIMG: './resources/images/dice-6.png'
     }
   ],
+
+  // roll dice may be called to return a random member of the dice object in diceIndex
   rollDice: function() {
     var diceRoll = Math.floor(Math.random() * 6);
     var diceObj = document.querySelector('.dice');
+
     //make dice object shake after rolling
     diceObj.classList.add('shake');
     window.setTimeout(function(){

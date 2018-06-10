@@ -127,6 +127,11 @@ Pigs.pig1Stats = {
         this.currentTurnsToToot--;
       }
     }
+    if (this.hasArmor) {
+      if (this.currentTurnsToArmor > 0) {
+        this.currentTurnsToArmor--;
+      }
+    }
     if (this.currentTurnsToCupcake > 0) {
       this.currentTurnsToCupcake--;
     }
@@ -258,6 +263,11 @@ Pigs.pig2Stats = {
     if (this.hasTooter) {
       if (this.currentTurnsToToot > 0) {
         this.currentTurnsToToot--;
+      }
+    }
+    if (this.hasArmor) {
+      if (this.currentTurnsToArmor > 0) {
+        this.currentTurnsToArmor--;
       }
     }
     if (this.currentTurnsToCupcake > 0) {

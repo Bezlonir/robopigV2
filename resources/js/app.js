@@ -4,19 +4,12 @@
 // global variable assignment
 // ---------------------------------
 
-
+// viewDice references the dice image for use as event listener
 var viewDice = document.querySelector('.dice');
-var currentDice = 0;
 
-var baseH = window.innerHeight;
-var root = document.querySelector('html');
-var fontFactor = (baseH / 45).toFixed(2);
-root.style.fontSize = `${fontFactor.toString()}px`;
-
-var dice = document.querySelector('.dice');
+// hold references the hold buttons for use as event listeners
 var hold = document.querySelectorAll('.btn-hold');
 var path = "'./resources/images/";
-
 
 // player objects
 var player1 = {
@@ -46,15 +39,26 @@ var game = {
   turn: false
 }
 
+
+// --------------------------------------------
+// Set initial game conditions on page load
+// (script is at  EOF in index.html, so this is on page load)
+// --------------------------------------------
+
+// set the Root font size on page load (script is referenced at end of HTML file, so this is on page load)
+resizeText();
+
 // clear both players' energy bars on page load
 setEnergy(player1);
 setEnergy(player2);
+// set the eye glow opacity to zero on both pig views
 Pigs.pig1.setEyeTrans(0);
 Pigs.pig2.setEyeTrans(0);
 
 // set the charge button visibilty based on initial game conditions
 positionChargeButton();
 
+// set the score view for both players to zero
 setScoreBox(player1);
 setScoreBox(player2);
 
@@ -84,13 +88,27 @@ window.addEventListener('keypress', function(k) {
 
 });
 
+
+///////////////////////////////////////
+// ******* Event Listeners
+///////////////////////////////////////
+
+
 // listen for a click on the dice image and call the roll dice function
-dice.addEventListener('click', function() {
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Main Dice Game functionality is behind this event listener
+// ----------------------------------------
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+viewDice.addEventListener('click', function() {
   appDiceRoll();
 });
+// ^^^^^^^^ dice game MAIN ^^^^^^^^^^^^^^^^
+
 
 // Listen for a click on one of the hold buttons and convert any points to energy and toggle the turn in that event
 hold.forEach(holdBtn => holdBtn.addEventListener('click', function() {
+  // based on whose turn it is, the active player will be passed to the functions that convert their points to energy, set their energy meter level, reset their score box, and change whose turn it is, in sequence
   if (!game.turn) {
     if (player1.points > 0) {
       pointsToEnergy(player1);
@@ -112,11 +130,8 @@ window.addEventListener('resize', resizeText);
 
 
 // -------------------------------------
-// -------- dice game portion
+// -------- dice game functions
 // -------------------------------------
-
-
-
 
 
 // reset the root font size
@@ -131,11 +146,15 @@ function resizeText() {
 function appDiceRoll() {
   // if game mode is 'pig', the dice game portion of game, roll the dice on player clicking on dice
   if (game.mode === 'pig') {
+    // return a roll object from the Dice script, containing
+    // the image URL to place in the dice IMG and the score
+    // and array index of the roll
     var roll = Dice.diceIndex.rollDice();
     viewDice.src = Dice.diceIndex.dice[roll.index].diceIMG;
 
     // if the roll is one, the player's turn ends
     if (roll.number === 1) {
+
       // if it's player one's turn, set their points to zero, otherwise, set player two's points to zero
       if (!game.turn) {
         player1.points = 0;
@@ -144,9 +163,12 @@ function appDiceRoll() {
         player2.points = 0;
         setScoreBox(player2);
       }
+
+      // if the score is 1, the player's turn is over
       toggleTurn();
+
     } else {
-      var pointDOM = '';
+
       // if it's player one's turn, add to their points, otherwise, add to player two's points
       if (!game.turn) {
         player1.points += roll.number;
@@ -193,6 +215,7 @@ function positionChargeButton() {
     oppPlayerIndex = '.player-1-panel';
   }
 
+  // grab objects for each players' charge button in order to apply visibilty styling
   var playerButton = document.querySelector(`${playerIndex} .player-current-box .btn-hold`);
   var oppPlayerButton = document.querySelector(`${oppPlayerIndex} .player-current-box .btn-hold`);
 
@@ -201,23 +224,38 @@ function positionChargeButton() {
   oppPlayerButton.style.visibility = 'hidden';
 }
 
+// changes which player's turn it is
 function toggleTurn() {
-  var turnTum = 0;
+  // turnNum is used in concatenation to reference a player's panel, as the only difference between their class names is a number in the name
+  var turnNum = 0;
   if (!game.turn) turnNum = 1; else turnNum = 2;
+  // toggle the 'active' class off in the player's panel whose turn is ending
   var oldTurn = document.querySelector(`.player-${turnNum}-panel`);
   oldTurn.classList.toggle('active');
+
+  //change the turn in the game object
   game.turn = !game.turn;
   if (!game.turn) turnNum = 1; else turnNum = 2;
+
+  // toggle the 'active' class on in the player's panel whose turn is beginning
   var newTurn = document.querySelector(`.player-${turnNum}-panel`);
   newTurn.classList.toggle('active');
+
+  // set the charge button visibility
   positionChargeButton();
 }
 
+// pointsToEnergy takes the points from the 'player' and adds it to that player's energy
 function pointsToEnergy(player) {
+
+  // add player's points to their energy
   player.energy += player.points;
 
+  // cap energy at maximum defined in game object and set the points to zero
   if (player.energy > game.maxEnergy) player.energy = game.maxEnergy;
   player.points = 0;
+
+  // set the energy bar view
   setEnergy(player);
 
   // if it is player one's turn, set the alpha for pig 1's eyes, else set the alpha for pig 2's eyes
@@ -227,12 +265,13 @@ function pointsToEnergy(player) {
     Pigs.pig2.setEyeTrans(player2.energy);
   }
 
-  // go into battle mode if player's energy is equal to 100
+  // go into battle mode if player's energy is equal to maximum defined in game object
   if (player.energy === game.maxEnergy) {
     gameModeBattle();
   }
 }
 
+// sets the score box view for the player to the player's current score
 function setScoreBox(player) {
   var scoreDOM = document.querySelector(`.player-${player.playerNum}-panel .player-current-score`);
 

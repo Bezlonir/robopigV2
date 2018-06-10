@@ -1,3 +1,10 @@
+// RoboPig is a two-stage game of energy aquisition and battle of RoboPigs
+
+// ---------------------------------
+// global variable assignment
+// ---------------------------------
+
+
 var viewDice = document.querySelector('.dice');
 var currentDice = 0;
 
@@ -27,22 +34,23 @@ var player2 = {
   energyFillImgClass: '.player-2-energy-fill'
 }
 
-// clear both players' energy bars on page load
-setEnergy(player1);
-setEnergy(player2);
-Pigs.pig1.setEyeTrans(0);
-Pigs.pig2.setEyeTrans(0);
-
 // essentially an enum for game modes
 var gameModes = ['pig', 'battle'];
 
 // game variable tracks turns and game mode
 var game = {
+  maxEnergy: 100,
   started: true,
   mode: 'pig',
   // false for player 1 turn, true for player 2 turn
   turn: false
 }
+
+// clear both players' energy bars on page load
+setEnergy(player1);
+setEnergy(player2);
+Pigs.pig1.setEyeTrans(0);
+Pigs.pig2.setEyeTrans(0);
 
 // set the charge button visibilty based on initial game conditions
 positionChargeButton();
@@ -159,7 +167,7 @@ function setEnergy(player) {
   var energyFill = document.querySelector(`${player.energyFillImgClass} .fill`);
 
   // set the height of the container based on the energy to clip off the top of the energy bar
-  energyFill.style.height = `${(player.energy)}%`;
+  energyFill.style.height = `${(player.energy / 100) * game.maxEnergy}%`;
   if (player.energy <= 90) {
     energyFill.style.width = '3.8rem';
 
@@ -208,7 +216,7 @@ function toggleTurn() {
 function pointsToEnergy(player) {
   player.energy += player.points;
 
-  if (player.energy > 100) player.energy = 100;
+  if (player.energy > game.maxEnergy) player.energy = game.maxEnergy;
   player.points = 0;
   setEnergy(player);
 
@@ -220,7 +228,7 @@ function pointsToEnergy(player) {
   }
 
   // go into battle mode if player's energy is equal to 100
-  if (player.energy === 100) {
+  if (player.energy === game.maxEnergy) {
     gameModeBattle();
   }
 }

@@ -1,3 +1,7 @@
+/*RoboPig is a simple dice game in which points are then used for a second game stage, a simple rpg-style battle between RoboPigs*/
+
+/*Basic Pig assets(layout of player frames) from Udemy JavaScript course. All pig image assets, energy bar assets, scripting, and styling of RoboPigs, RoboPig Store, and RoboPig battle are the production of Bezlonir aka Michael Bragg*/
+
 /**********************************************
 *** GENERAL
 **********************************************/
@@ -6,7 +10,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
+    font-family:'Francois One', sans-serif;
 }
 
 .clearfix::after {
@@ -23,6 +27,11 @@ body {
     height: 100vh;
     color: #555;
 }
+
+/*///////////////////////////////////
+******** title styling
+///////////////////////////////////*/
+
 
 #title {
   background-image: url('../images/brushedsteel4-600x450.jpg');
@@ -45,7 +54,7 @@ body {
 
 .robo-title {
   color:rgba(140,140,140,.95);
-  font-family: Lato;
+  font-family:'Francois One', sans-serif;
   font-weight: 600;
   font-size: 2.5rem;
   text-shadow: 1px 1px #1b1b1b,
@@ -57,7 +66,7 @@ body {
 
 .pig-title {
   color:rgba(200,160,160,.95);
-  font-family: Lato;
+  font-family:'Francois One', sans-serif;
   font-weight: 600;
   font-size: 3rem;
   text-shadow: 1px 1px #1b1b1b,
@@ -66,6 +75,17 @@ body {
               -1px -1px #1b1b1b,
               0px 0px 5px #1b1b1b;
 
+}
+
+/*////////////////////////////////////
+******** Energy Bar styling
+////////////////////////////////////*/
+
+
+#energy {
+  pointer-events: none;
+  position:relative;
+  bottom: 120vh;
 }
 
 .energy-wrap {
@@ -77,9 +97,6 @@ body {
   padding-right: 3rem;
   justify-content: space-between;
   height: 20rem;
-  position:relative;
-  bottom: 120vh;
-
   z-index:350;
 }
 
@@ -159,6 +176,10 @@ body {
   z-index:440;
 }
 
+/*/////////////////////////////////
+********* Dice Game styling
+/////////////////////////////////*/
+
 
 #pig-roll {
   background-image: linear-gradient(rgba(62, 20, 20, 0.4), rgba(62, 20, 20, 0.4)), url(../images/back.jpg);
@@ -195,6 +216,7 @@ body {
 
 .player-name {
     font-size: 2rem;
+    font-family:'Francois One', sans-serif;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: .1rem;
@@ -203,14 +225,6 @@ body {
     margin-bottom: 10px;
     position: relative;
 }
-
-/*.player-score {
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 100;
-    color: #4DCB4D;
-    margin-bottom: 1.5rem;
-}*/
 
 .active { background-color: #f7f7f7; }
 .active .player-name { font-weight: 300; }
@@ -236,12 +250,14 @@ body {
 
 .player-current-label {
     text-transform: uppercase;
+    font-family:'Francois One', sans-serif;
     margin-bottom: 10px;
     font-size: 1.3rem;
     color: #222;
 }
 
 .player-current-score {
+    font-family:'Francois One', sans-serif;
     font-size: 3rem;
 }
 
@@ -290,7 +306,7 @@ i {
 }
 
 .btn-new { top: 1.5rem;}
-/*.btn-roll { top: 73px;}*/
+
 .btn-hold {
   position:relative;
   top: 3rem;
@@ -337,6 +353,11 @@ i {
 .winner { background-color: #f7f7f7; }
 .winner .player-name { font-weight: 300; color: #EB4D4D; }
 
+/*///////////////////////////////////
+********** Pigs Styling
+///////////////////////////////////*/
+
+
 #pig-display {
   height:30vh;
   background:url('../images/trans_wrap.png');
@@ -362,7 +383,7 @@ i {
   background-size:cover;
   background-repeat:no-repeat;
   overflow:hidden;
-  border: 2px solid rgba(20, 20, 60, .8);
+  border: 2px solid rgba(20, 20, 60, 1);
   width:16rem;
   height:14rem;
 }
@@ -392,7 +413,7 @@ i {
 }
 
 .pig-tooter-1 {
-  background-image:url('../images/robotoot.svg');
+  background-image:url('../images/trans_wrap.png');
   background-position:center left;
   background-size:cover;
   background-repeat:no-repeat;
@@ -401,7 +422,7 @@ i {
 }
 
 .pig-armor-1 {
-  background-image:url('../images/robocake.svg');
+  background-image:url('../images/trans_wrap.png');
   background-position:center left;
   background-size:cover;
   background-repeat:no-repeat;
@@ -425,7 +446,7 @@ i {
   background-size:cover;
   background-repeat:no-repeat;
   overflow:hidden;
-  border: 2px solid rgba(20, 20, 60, .8);
+  border: 2px solid rgba(20, 20, 60, 1);
   width:16rem;
   height:14rem;
 }
@@ -446,7 +467,7 @@ i {
 }
 
 .pig-rooter-2 {
-  background-image:url('../images/roborooter2.svg');
+  background-image:url('../images/trans_wrap.png');
   background-position:center right;
   background-size:cover;
   background-repeat:no-repeat;
@@ -455,7 +476,7 @@ i {
 }
 
 .pig-tooter-2 {
-  background-image:url('../images/robotoot2.svg');
+  background-image:url('../images/trans_wrap.png');
   background-position:center right;
   background-size:cover;
   background-repeat:no-repeat;
@@ -464,7 +485,7 @@ i {
 }
 
 .pig-armor-2 {
-  background-image:url('../images/robocake2.svg');
+  background-image:url('../images/trans_wrap.png');
   background-position:center right;
   background-size:cover;
   background-repeat:no-repeat;
@@ -481,7 +502,13 @@ i {
   height:100%;
 }
 
-#pig-battle {
+
+/*//////////////////////////////////
+********** Store styling
+//////////////////////////////////*/
+
+
+#pig-store {
   height:50vh;
   background:linear-gradient(#8f8f8f, #a3a3a3);
   background-image:url('../images/aluminum-bg-1920x1080.jpg');
@@ -490,6 +517,105 @@ i {
 
 .pig-store-wrapper {
   height:100%;
-  width:100%;
+  width:81%;
+  margin-left:auto;
+  margin-right:auto;
   background:linear-gradient(rgba(71,50,35,0.6), rgba(63,15,45,0.6));
+  display:flex;
+  justify-content:space-between;
+}
+
+.pig-1-store, .pig-2-store {
+  width:10rem;
+  height:100%;
+  background:rgba(150,150,150,.3);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-around;
+  align-items:center;
+}
+
+.store-item {
+  height:6rem;
+  width:9rem;
+  overflow:hidden;
+}
+
+.pig-1-store h3, .pig-2-store h3 {
+  color: white;
+  font-family:'Francois One', sans-serif;
+  background:rgba(150,150,150, 1);
+  opacity:1;
+  margin:0;
+  padding:0;
+  width:9rem;
+  text-align:center;
+}
+
+.rooter-store-1, .rooter-store-2, .tooter-store-1, .tooter-store-2, .armor-store-1, .armor-store-2 {
+  max-height:100%;
+  height:100%;
+  max-width:100%;
+  background-size:contain;
+  background-repeat: none;
+  background-position:center;
+  background-color:rgba(50,30,50, .85);
+  transform:scale(1.8);
+  overflow:hidden;
+}
+
+.rooter-store-1, .tooter-store-2 {
+  background-position:center left;
+}
+
+.armor-store-2 {
+  background-position:bottom left;
+}
+
+.rooter-store-1, .armor-store-2 {
+  transform: scale(1.8) translateX(-10%);
+}
+
+.rooter-store-2 {
+  transform: scale(1.8) translateX(-14%);
+}
+
+.tooter-store-2 {
+  transform: scale(1.8) translateX(-22%);
+}
+
+.tooter-store-1, .armor-store-1 {
+  background-position: center right;
+}
+
+.tooter-store-1 {
+  transform: scale(1.8) translateX(22%);
+}
+
+.armor-store-1 {
+  transform: scale(1.8) translateX(8%);
+}
+
+.rooter-store-1, .rooter-store-2 {
+  background-image:url('../images/roborooter.svg');
+}
+
+.tooter-store-1 {
+  background-image:url('../images/robotoot.svg');
+}
+
+.tooter-store-2 {
+  background-image:url('../images/robotoot2.svg');
+}
+
+.armor-store-1 {
+  background-image:url('../images/robocake.svg');
+}
+
+.armor-store-2 {
+  background-image:url('../images/robocake2.svg');
+}
+
+.context-filter {
+  background-color: rgba(140,140,140,0);
 }

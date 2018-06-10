@@ -145,15 +145,15 @@ Pigs.pig2 = {
   imageFrame: {
     clear: `url(${path}trans_wrap.png')`,
     pigImg: `url(${path}robopig2.svg')`,
-    pigImgClass: 'pig-2',
+    pigImgClass: '.pig-2',
     pigRooterImg: `url(${path}roborooter2.svg')`,
-    pigRooterImgClass: 'pig-rooter-2',
+    pigRooterImgClass: '.pig-rooter-2',
     pigTooterImg: `url(${path}robotoot2.svg')`,
     pigTooterImgClass: '.pig-tooter-2',
     pigArmorImg: `url(${path}robocake2.svg')`,
     pigArmorImgClass: '.pig-armor-2',
     pigEyeImg: `url(${path}pigeye2.png')`,
-    pigEyeImgClass: 'pig-eye-2'
+    pigEyeImgClass: '.pig-eye-2'
   },
   // toggleProp works with Rooter, Tooter, and Pig Armor to turn each on and off in both the model and the view.
   toggleProp: function(imgUrl, CSSClass, toggleBool, maxTurns, currentTurns) {

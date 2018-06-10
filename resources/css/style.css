@@ -68,6 +68,97 @@ body {
 
 }
 
+.energy-wrap {
+  display: flex;
+  pointer-events: none;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 3rem;
+  justify-content: space-between;
+  height: 20rem;
+  position:relative;
+  bottom: 120vh;
+
+  z-index:350;
+}
+
+.energy-container {
+  height: 20rem;
+  position:relative;
+  top: 0.2rem;
+  width:auto;
+  display: flex;
+
+}
+
+.player-1-energy-bar {
+  background-image: url('../images/energy_meter.svg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  top: 0.2rem;
+  left: 3rem;
+  width: 3rem;
+  height: 20rem;
+  overflow: hidden;
+  display:flex;
+  z-index:450;
+}
+
+.player-1-energy-fill {
+  background: none;
+  position: absolute;
+  display:flex;
+  flex:1;
+  flex-direction:column-reverse;
+  align-items:center;
+  top: 0.2rem;
+  left:3rem;
+  width: 3rem;
+  height: 20rem;
+  overflow: hidden;
+  z-index:440;
+}
+
+.fill {
+  background-image: url('../images/energy_fill.svg');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat:no-repeat;
+  width: 3rem;
+  height: 20rem;
+}
+
+.player-2-energy-bar {
+  background-image: url('../images/energy_meter.svg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  top: 0.2rem;
+
+  width: 3rem;
+  height: 20rem;
+  overflow: hidden;
+  display:flex;
+  z-index:450;
+}
+
+.player-2-energy-fill {
+  background-image: none;
+  position: absolute;
+  display:flex;
+  flex:1;
+  flex-direction:column-reverse;
+  align-items:center;
+  top: 0.2rem;
+  left: 0rem;
+  width: 3rem;
+  height: 20rem;
+  overflow: hidden;
+  z-index:440;
+}
+
 
 #pig-roll {
   background-image: linear-gradient(rgba(62, 20, 20, 0.4), rgba(62, 20, 20, 0.4)), url(../images/back.jpg);
@@ -88,8 +179,8 @@ body {
     height:40vh;
 }
 
-.player-0-panel,
-.player-1-panel {
+.player-1-panel,
+.player-2-panel {
     width: 50%;
     float: left;
     height: 20rem;
@@ -113,13 +204,13 @@ body {
     position: relative;
 }
 
-.player-score {
+/*.player-score {
     text-align: center;
     font-size: 3rem;
     font-weight: 100;
     color: #4DCB4D;
     margin-bottom: 1.5rem;
-}
+}*/
 
 .active { background-color: #f7f7f7; }
 .active .player-name { font-weight: 300; }
@@ -146,13 +237,19 @@ body {
 .player-current-label {
     text-transform: uppercase;
     margin-bottom: 10px;
-    font-size: 12px;
+    font-size: 1.3rem;
     color: #222;
 }
 
 .player-current-score {
+    font-size: 3rem;
+}
+
+.player-current-score:before {
+
     font-size: 2rem;
 }
+
 
 button {
     position: absolute;
@@ -195,10 +292,13 @@ i {
 .btn-new { top: 1.5rem;}
 /*.btn-roll { top: 73px;}*/
 .btn-hold {
-  top: 12rem;
-  left: 36%;
+  position:relative;
+  top: 3rem;
+  margin-top: -2rem;
+  left: 1rem;
   transform: translateX(-50%);
   font-size:2.5rem;
+  z-index:600;
 }
 
 .dice {
@@ -209,6 +309,7 @@ i {
     height: 12rem;
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
     transition: background-image 0.3s;
+    z-index:600;
 }
 
 .shake:hover {
@@ -237,14 +338,15 @@ i {
 .winner .player-name { font-weight: 300; color: #EB4D4D; }
 
 #pig-display {
-  height:20vh;
+  height:30vh;
   background:url('../images/trans_wrap.png');
-  width: 40rem;
+  width: 50rem;
   position:relative;
-  bottom: 50%;
+  bottom: 63%;
   z-index: 400;
   margin-left:auto;
   margin-right:auto;
+  box-shadow: none;
 }
 
 .pig-wrapper {
@@ -259,9 +361,10 @@ i {
   background-position:center left;
   background-size:cover;
   background-repeat:no-repeat;
+  overflow:hidden;
   border: 2px solid rgba(20, 20, 60, .8);
-  width:12rem;
-  height:10rem;
+  width:16rem;
+  height:14rem;
 }
 
 .pig-back-1-shade {
@@ -321,9 +424,10 @@ i {
   background-position:center right;
   background-size:cover;
   background-repeat:no-repeat;
+  overflow:hidden;
   border: 2px solid rgba(20, 20, 60, .8);
-  width:12rem;
-  height:10rem;
+  width:16rem;
+  height:14rem;
 }
 
 .pig-back-2-shade {
@@ -389,5 +493,3 @@ i {
   width:100%;
   background:linear-gradient(rgba(71,50,35,0.6), rgba(63,15,45,0.6));
 }
-
-/*background:linear-gradient(rgba(94,54,74,0.6), rgba(63,15,45,0.6));*/

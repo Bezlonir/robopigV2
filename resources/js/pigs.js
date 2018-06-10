@@ -92,6 +92,7 @@ Pigs.pig1 = {
 
 }
 
+
 // ------------------------------------------------
 // ------- Pig 1 Stats *************************
 // ------------------------------------------------
@@ -100,6 +101,7 @@ Pigs.pig1 = {
 Pigs.pig1Stats = {
   energy: 0,
   hp: 120,
+  maxhp: 120,
   hasArmor: false,
   armorAbsorb: 0,
   armorUp: false,
@@ -232,6 +234,7 @@ Pigs.pig2 = {
 Pigs.pig2Stats = {
   energy: 0,
   hp: 120,
+  maxhp: 120,
   hasArmor: false,
   armorAbsorb: 0,
   armorUp: false,

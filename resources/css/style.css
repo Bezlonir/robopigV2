@@ -353,6 +353,7 @@ i {
 .winner { background-color: #f7f7f7; }
 .winner .player-name { font-weight: 300; color: #EB4D4D; }
 
+
 /*///////////////////////////////////
 ********** Pigs Styling
 ///////////////////////////////////*/
@@ -404,7 +405,7 @@ i {
 }
 
 .pig-rooter-1 {
-  background-image:url('../images/roborooter.svg');
+  background-image:url('../images/trans_wrap.png');
   background-position:center left;
   background-size:cover;
   background-repeat:no-repeat;

@@ -167,6 +167,7 @@ storeFronts[0].addEventListener('click', function(){
     Pigs.pig1.toggleRooter();
     player1.energy -= storeX.cost;
     setEnergy(player1);
+    Pigs.pig1.setEyeTrans(player1.energy);
   }
 });
 storeFronts[1].addEventListener('click', function(){
@@ -179,6 +180,7 @@ storeFronts[1].addEventListener('click', function(){
     Pigs.pig1.toggleTooter();
     player1.energy -= storeX.cost;
     setEnergy(player1);
+    Pigs.pig1.setEyeTrans(player1.energy);
   }
 });
 storeFronts[2].addEventListener('click', function(){
@@ -191,6 +193,7 @@ storeFronts[2].addEventListener('click', function(){
     Pigs.pig1.toggleArmor();
     player1.energy -= storeX.cost;
     setEnergy(player1);
+    Pigs.pig1.setEyeTrans(player1.energy);
   }
 });
 storeFronts[3].addEventListener('click', function(){
@@ -203,6 +206,7 @@ storeFronts[3].addEventListener('click', function(){
     Pigs.pig2.toggleRooter();
     player2.energy -= storeX.cost;
     setEnergy(player2);
+    Pigs.pig2.setEyeTrans(player2.energy);
   }
 });
 storeFronts[4].addEventListener('click', function(){
@@ -215,6 +219,7 @@ storeFronts[4].addEventListener('click', function(){
     Pigs.pig2.toggleTooter();
     player2.energy -= storeX.cost;
     setEnergy(player2);
+    Pigs.pig2.setEyeTrans(player2.energy);
   }
 });
 storeFronts[5].addEventListener('click', function(){
@@ -227,6 +232,7 @@ storeFronts[5].addEventListener('click', function(){
     Pigs.pig2.toggleArmor();
     player2.energy -= storeX.cost;
     setEnergy(player2);
+    Pigs.pig2.setEyeTrans(player2.energy);
   }
 });
 
@@ -304,6 +310,8 @@ function setEnergy(player) {
   } else {
     energyFill.style.width = '3rem';
   }
+
+  setContextFilters();
 
 }
 
@@ -388,6 +396,79 @@ function setScoreBox(player) {
 
   scoreDOM.innerText = player.points;
 }
+
+// set the color of context filters in the store so that they will show red if the player doesn't have enough energy to buy an item and grey if they already have the item
+function setContextFilters() {
+  var filters = document.querySelectorAll('.context-filter');
+  for (i = 0; i < filters.length; i++) {
+    // check if the player has enough energy for each item
+    // the first three store items reference player one's store
+    if (i <3) {
+      if (Store.storeInfo.storeItems[i].cost > player1.energy) {
+        if (!filters[i].classList.contains('trop')){
+          filters[i].classList.toggle('trop');
+        }
+      } else {
+        if (filters[i].classList.contains('trop')){
+          filters[i].classList.toggle('trop');
+        }
+      }
+    // the last three store items reference player two's store
+    } else {
+      if (Store.storeInfo.storeItems[i].cost > player2.energy) {
+        if (!filters[i].classList.contains('trop')){
+          filters[i].classList.toggle('trop');
+        }
+      } else {
+        if (filters[i].classList.contains('trop')){
+          filters[i].classList.toggle('trop');
+        }
+      }
+    }
+    // check if the player already has each item
+
+    switch (i) {
+      case 0:
+        if (Pigs.pig1Stats.hasRooter) {
+          if(!filters[i].classList.contains('have-it')) {
+            filters[i].classList.toggle('have-it');
+          }
+        }
+      case 1:
+        if (Pigs.pig1Stats.hasTooter) {
+          if(!filters[i].classList.contains('have-it')) {
+            filters[i].classList.toggle('have-it');
+          }
+        }
+      case 2:
+        if (Pigs.pig1Stats.hasArmor) {
+          if(!filters[i].classList.contains('have-it')) {
+            filters[i].classList.toggle('have-it');
+          }
+        }
+      case 3:
+        if (Pigs.pig2Stats.hasRooter) {
+          if(!filters[i].classList.contains('have-it')) {
+            filters[i].classList.toggle('have-it');
+          }
+        }
+      case 4:
+        if (Pigs.pig2Stats.hasTooter) {
+          if(!filters[i].classList.contains('have-it')) {
+            filters[i].classList.toggle('have-it');
+          }
+        }
+      case 5:
+        if (Pigs.pig2Stats.hasArmr) {
+          if(!filters[i].classList.contains('have-it')) {
+            filters[i].classList.toggle('have-it');
+          }
+        }
+    } // <-- switch case
+  } // <-- for loop
+
+}
+
 
 function gameModeBattle() {
 

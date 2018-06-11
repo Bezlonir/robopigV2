@@ -130,7 +130,7 @@ body {
   flex:1;
   flex-direction:column-reverse;
   align-items:center;
-  top: 0.2rem;
+  top: 0.1rem;
   left:3rem;
   width: 3rem;
   height: 20rem;
@@ -168,7 +168,7 @@ body {
   flex:1;
   flex-direction:column-reverse;
   align-items:center;
-  top: 0.2rem;
+  top: 0.1rem;
   left: 0rem;
   width: 3rem;
   height: 20rem;
@@ -570,7 +570,7 @@ i {
   background-position:center;
   background-color:rgba(50,30,50, .85);
   transform:scale(1.8);
-  overflow:visible;
+  z-index:630;
 }
 
 .rooter-store-1, .tooter-store-2 {
@@ -677,5 +677,13 @@ i {
 .context-filter {
   height:100%;
   width:100%;
-  overflow:visible;
+  z-index:680;
+}
+
+.trop {
+  background:rgba(180,40,40,1);
+}
+
+.have-it {
+  background:rgba(40,180,40);
 }

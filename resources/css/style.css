@@ -689,3 +689,75 @@ i {
 .trop {
   background:rgba(180,40,40,1);
 }
+
+
+/*---------------------------------
+******** Pig Battle styling
+---------------------------------*/
+
+#pig-battle {
+  position:relative;
+  bottom: 170vh;
+}
+
+.pig-battle-back {
+  height:100vh;
+  background-color:rgba(255,255,255,.97);
+  /*display:none;*/
+  pointer-events:none;
+}
+
+.pig-battle-back h1 {
+  font-family:'Francois One', sans-serif;
+  font-size: 2.5rem;
+  text-align:center;
+}
+
+.battle-wrapper {
+  width:84%;
+  height:32rem;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:8rem;
+  background-color:rgba(180,180,180,.8);
+  display:flex;
+  justify-content:space-between;
+}
+
+.battle-wrapper button {
+  position:static;
+  left:0;
+  width:auto;
+  transform:none;
+  font-family:'Alegrey', serif;
+  background-color:rgb(120,120,120);
+  color:rgba(255,255,255,.9);
+  margin-top:.3rem;
+  padding:.2rem;
+  font-size:.8rem;
+  width: 80%;
+}
+
+.battle-wrapper button:hover {
+  background-color:rgb(220,220,120);
+  color:rgba(55,55,55,.9);
+
+}
+
+.battle-wrapper h3 {
+  text-align:center;
+}
+
+.pig-1-commands, .pig-2-commands {
+  height: 16rem;
+  margin-top:4rem;
+  width: 8rem;
+  background-color:rgba(140,140,140,.8);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.battle-active {
+  background-color:rgba(220,220,220,.8);
+}

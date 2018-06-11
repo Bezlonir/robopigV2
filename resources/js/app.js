@@ -44,6 +44,14 @@ var game = {
   turn: false
 }
 
+var actionBar1 = document.querySelectorAll('.pig-1-commands button');
+var actionBar1dex = Array.from(actionBar1);
+
+var actionBar2 = document.querySelectorAll('.pig-2-commands button');
+
+var actionBar2dex = Array.from(actionBar2);
+
+var battleFrame = document.querySelector('#pig-battle');
 
 // --------------------------------------------
 // Set initial game conditions on page load
@@ -66,6 +74,10 @@ positionChargeButton();
 // set the score view for both players to zero
 setScoreBox(player1);
 setScoreBox(player2);
+
+hideBattle();
+
+gameModeBattle();
 
 // temporary Developer commands for testing functionality
 window.addEventListener('keypress', function(k) {
@@ -431,6 +443,85 @@ function setContextFilters() {
 }
 
 
+function hideBattle() {
+  battleFrame.style.display = 'none';
+  battleFrame.firstElementChild.style.pointerEvents = 'none';
+}
+
+function showBattle() {
+  battleFrame.style.display = 'block';
+  battleFrame.firstElementChild.style.pointerEvents = 'auto';
+}
+
 function gameModeBattle() {
+  showBattle();
+  populateActionBars();
+  Battle.setHP();
+}
+
+// determine which buttons appear in the action bars in the view
+function populateActionBars() {
+  actionBar1.forEach(function(button){
+    button.style.display = 'block';
+  });
+  actionBar2.forEach(function(button){
+    button.style.display = 'block';
+  });
+  actionBar1.forEach(function(button){
+    switch (actionBar1dex.indexOf(button)) {
+      case 1:
+          if (Pigs.pig1Stats.hasRooter) {
+            actionBar1[1].style.display = 'block';
+          }
+          else {
+            actionBar1[1].style.display = 'none';
+          }
+        break;
+      case 2:
+          if (Pigs.pig1Stats.hasTooter) {
+            actionBar1[2].style.display = 'block';
+          }
+          else {
+            actionBar1[2].style.display = 'none';
+          }
+        break;
+      case 3:
+          if (Pigs.pig1Stats.hasArmor) {
+            actionBar1[3].style.display = 'block';
+          }
+          else {
+            actionBar1[3].style.display = 'none';
+          }
+        break;
+    }
+    actionBar2.forEach(function(button){
+      switch (actionBar2dex.indexOf(button)) {
+        case 1:
+            if (Pigs.pig2Stats.hasRooter) {
+              actionBar2[1].style.display = 'block';
+            }
+            else {
+              actionBar2[1].style.display = 'none';
+            }
+          break;
+        case 2:
+            if (Pigs.pig2Stats.hasTooter) {
+              actionBar2[2].style.display = 'block';
+            }
+            else {
+              actionBar2[2].style.display = 'none';
+            }
+          break;
+        case 3:
+            if (Pigs.pig2Stats.hasArmor) {
+              actionBar2[3].style.display = 'block';
+            }
+            else {
+              actionBar2[3].style.display = 'none';
+            }
+          break;
+      }
+    });
+  });
 
 }

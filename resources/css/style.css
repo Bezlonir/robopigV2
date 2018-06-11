@@ -26,6 +26,7 @@ body {
     position: relative;
     height: 100vh;
     color: #555;
+    overflow:hidden;
 }
 
 /*///////////////////////////////////

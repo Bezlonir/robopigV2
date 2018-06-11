@@ -425,46 +425,7 @@ function setContextFilters() {
         }
       }
     }
-    // check if the player already has each item
 
-    switch (i) {
-      case 0:
-        if (Pigs.pig1Stats.hasRooter) {
-          if(!filters[i].classList.contains('have-it')) {
-            filters[i].classList.toggle('have-it');
-          }
-        }
-      case 1:
-        if (Pigs.pig1Stats.hasTooter) {
-          if(!filters[i].classList.contains('have-it')) {
-            filters[i].classList.toggle('have-it');
-          }
-        }
-      case 2:
-        if (Pigs.pig1Stats.hasArmor) {
-          if(!filters[i].classList.contains('have-it')) {
-            filters[i].classList.toggle('have-it');
-          }
-        }
-      case 3:
-        if (Pigs.pig2Stats.hasRooter) {
-          if(!filters[i].classList.contains('have-it')) {
-            filters[i].classList.toggle('have-it');
-          }
-        }
-      case 4:
-        if (Pigs.pig2Stats.hasTooter) {
-          if(!filters[i].classList.contains('have-it')) {
-            filters[i].classList.toggle('have-it');
-          }
-        }
-      case 5:
-        if (Pigs.pig2Stats.hasArmr) {
-          if(!filters[i].classList.contains('have-it')) {
-            filters[i].classList.toggle('have-it');
-          }
-        }
-    } // <-- switch case
   } // <-- for loop
 
 }

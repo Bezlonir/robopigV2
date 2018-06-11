@@ -516,12 +516,17 @@ i {
   box-shadow: inset 1px 1px 3px rgba(30, 5, 15);
 }
 
+.outer-pig-store-wrapper {
+  height:100%;
+  width:100%;
+  background:linear-gradient(rgba(71,50,35,0.6), rgba(63,15,45,0.6));
+}
+
 .pig-store-wrapper {
   height:100%;
   width:81%;
   margin-left:auto;
   margin-right:auto;
-  background:linear-gradient(rgba(71,50,35,0.6), rgba(63,15,45,0.6));
   display:flex;
   justify-content:space-between;
 }

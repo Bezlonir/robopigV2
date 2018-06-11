@@ -11,6 +11,11 @@ var viewDice = document.querySelector('.dice');
 var hold = document.querySelectorAll('.btn-hold');
 var path = "'./resources/images/";
 
+var storeFronts = document.querySelectorAll('.store-item');
+
+var tooltipBox = document.querySelector('.tooltip-info-box');
+
+
 // player objects
 var player1 = {
   energy: 0,
@@ -123,6 +128,109 @@ hold.forEach(holdBtn => holdBtn.addEventListener('click', function() {
     }
   }
 }));
+
+// create storefront event listeners in order to match the DOM sequence taken from querySelectorALL with the sequence designed to match that in Store.storeinfo object.
+storeFronts[0].addEventListener('mouseover', function(){
+
+  tooltipBox.innerHTML = Store.storeInfo.storeItems[0].tooltipText;
+});
+storeFronts[1].addEventListener('mouseover', function(){
+
+  tooltipBox.innerHTML = Store.storeInfo.storeItems[1].tooltipText;
+});
+storeFronts[2].addEventListener('mouseover', function(){
+
+  tooltipBox.innerHTML = Store.storeInfo.storeItems[2].tooltipText;
+});
+storeFronts[3].addEventListener('mouseover', function(){
+
+  tooltipBox.innerHTML = Store.storeInfo.storeItems[3].tooltipText;
+});
+storeFronts[4].addEventListener('mouseover', function(){
+
+  tooltipBox.innerHTML = Store.storeInfo.storeItems[4].tooltipText;
+});
+storeFronts[5].addEventListener('mouseover', function(){
+
+  tooltipBox.innerHTML = Store.storeInfo.storeItems[5].tooltipText;
+});
+
+
+// create even listeners for storeFront click events that will check if the player has enough energy,
+storeFronts[0].addEventListener('click', function(){
+  if (game.turn) return;
+  var storeX = Store.storeInfo.storeItems[0];
+  if (player1.energy >= storeX.cost) {
+    if (Pigs.pig1Stats.hasRooter) {
+      return;
+    }
+    Pigs.pig1.toggleRooter();
+    player1.energy -= storeX.cost;
+    setEnergy(player1);
+  }
+});
+storeFronts[1].addEventListener('click', function(){
+  if (game.turn) return;
+  var storeX = Store.storeInfo.storeItems[1];
+  if (player1.energy >= storeX.cost) {
+    if (Pigs.pig1Stats.hasTooter) {
+      return;
+    }
+    Pigs.pig1.toggleTooter();
+    player1.energy -= storeX.cost;
+    setEnergy(player1);
+  }
+});
+storeFronts[2].addEventListener('click', function(){
+  if (game.turn) return;
+  var storeX = Store.storeInfo.storeItems[2];
+  if (player1.energy >= storeX.cost) {
+    if (Pigs.pig1Stats.hasArmor) {
+      return;
+    }
+    Pigs.pig1.toggleArmor();
+    player1.energy -= storeX.cost;
+    setEnergy(player1);
+  }
+});
+storeFronts[3].addEventListener('click', function(){
+  if (!game.turn) return;
+  var storeX = Store.storeInfo.storeItems[3];
+  if (player2.energy >= storeX.cost) {
+    if (Pigs.pig2Stats.hasRooter) {
+      return;
+    }
+    Pigs.pig2.toggleRooter();
+    player2.energy -= storeX.cost;
+    setEnergy(player2);
+  }
+});
+storeFronts[4].addEventListener('click', function(){
+  if (!game.turn) return;
+  var storeX = Store.storeInfo.storeItems[4];
+  if (player2.energy >= storeX.cost) {
+    if (Pigs.pig2Stats.hasTooter) {
+      return;
+    }
+    Pigs.pig2.toggleTooter();
+    player2.energy -= storeX.cost;
+    setEnergy(player2);
+  }
+});
+storeFronts[5].addEventListener('click', function(){
+  if (!game.turn) return;
+  var storeX = Store.storeInfo.storeItems[5];
+  if (player2.energy >= storeX.cost) {
+    if (Pigs.pig2Stats.hasArmor) {
+      return;
+    }
+    Pigs.pig2.toggleArmor();
+    player2.energy -= storeX.cost;
+    setEnergy(player2);
+  }
+});
+
+
 
 
 // listen for window resize and set root font size to match
@@ -268,7 +376,10 @@ function pointsToEnergy(player) {
   // go into battle mode if player's energy is equal to maximum defined in game object
   if (player.energy === game.maxEnergy) {
     gameModeBattle();
+  } else {
+
   }
+
 }
 
 // sets the score box view for the player to the player's current score

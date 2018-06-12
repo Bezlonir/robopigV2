@@ -948,9 +948,9 @@ function startNewGame() {
 }
 
 function hidePigStore() {
-  pigStore.style.visibility: 'hidden';
+  pigStore.style.visibility = 'hidden';
 }
 
 function showPigStore() {
-  pigStore.style.visibility: 'visible';
+  pigStore.style.visibility = 'visible';
 }

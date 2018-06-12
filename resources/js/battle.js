@@ -12,7 +12,7 @@ Battle.addText = function(textToAdd) {
   Battle.textBox.scrollTop = Battle.textBox.scrollHeight;
   if (Battle.textCount > 30) {
     console.log('removing last child of battle text box');
-    Battle.textBox.removeChild(list.childNodes[0]);
+    Battle.textBox.removeChild(Battle.textBox.childNodes[0]);
   }
 }
 

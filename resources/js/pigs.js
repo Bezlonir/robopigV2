@@ -152,11 +152,11 @@ Pigs.pig1Stats = {
   },
   // apply damage from conText source to pig 1
   takeDamage: function(dam, conText) {
-    damage = dam;
-    if (this.armorUp) {
-      damage /= 2;
+    var Tdamage = dam;
+    if (this.armorUp > 0) {
+      Tdamage /= 2;
     }
-    this.hp -= Math.floor(damage);
+    this.hp -= Math.floor(Tdamage);
     if (this.hp < 0) {
       this.hp = 0;
       game.battleOver = true;
@@ -334,11 +334,11 @@ Pigs.pig2Stats = {
   },
   // apply damage from conText source to pig 1
   takeDamage: function(dam, conText) {
-    damage = dam;
-    if (this.armorUp) {
-      damage /= 2;
+    var Tdamage = dam;
+    if (this.armorUp > 0) {
+      Tdamage /= 2;
     }
-    this.hp -= Math.floor(damage);
+    this.hp -= Math.floor(Tdamage);
     if (this.hp < 0) {
       this.hp = 0;
       game.battleOver = true;

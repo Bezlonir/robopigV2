@@ -945,6 +945,8 @@ function startNewGame() {
   hideBattle();
   hideGameOver();
   showPigStore();
+  setEnergy();
+  setScoreBox();
 }
 
 function hidePigStore() {

@@ -15,6 +15,8 @@ var storeFronts = document.querySelectorAll('.store-item');
 
 var tooltipBox = document.querySelector('.tooltip-info-box');
 
+var gameOverScreen = document.querySelector('#game-over');
+
 
 // player objects
 var player1 = {
@@ -41,7 +43,9 @@ var game = {
   started: true,
   mode: 'pig',
   // false for player 1 turn, true for player 2 turn
-  turn: false
+  turn: false,
+  battleOver: false,
+  winner: ''
 }
 
 var actionBar1 = document.querySelectorAll('.pig-1-commands button');
@@ -75,9 +79,17 @@ positionChargeButton();
 setScoreBox(player1);
 setScoreBox(player2);
 
-hideBattle();
+// link up actionBarListeners
+actionBarListeners();
+// Link new game button
+linkNewGame();
 
-gameModeBattle();
+// Hide Battle and Game Over screens (shown on load for event listeners)
+hideBattle();
+hideGameOver();
+
+showBattle();
+hideBattle();
 
 // temporary Developer commands for testing functionality
 window.addEventListener('keypress', function(k) {
@@ -130,13 +142,17 @@ hold.forEach(holdBtn => holdBtn.addEventListener('click', function() {
     if (player1.points > 0) {
       pointsToEnergy(player1);
       setScoreBox(player1);
-      toggleTurn();
+      if (player1.points < 100) {
+        toggleTurn();
+      }
     }
   } else {
     if (player2.points >0) {
       pointsToEnergy(player2);
       setScoreBox(player2);
-      toggleTurn();
+      if (player2.points < 100) {
+        toggleTurn();
+      }
     }
   }
 }));
@@ -368,9 +384,18 @@ function toggleTurn() {
   // toggle the 'active' class on in the player's panel whose turn is beginning
   var newTurn = document.querySelector(`.player-${turnNum}-panel`);
   newTurn.classList.toggle('active');
+  if (game.mode === gameModes[0]) { // if game.mode = 'pig'
+    // set the charge button visibility
+    positionChargeButton();
+  } else if (game.mode === gameModes[1]) { //if game.mode = 'battle'
+    if (game.battleOver) {
+      hideBattle();
+      announceWinner();
+    }
+    setActionBarReady();
+    switchPlayerBattle();
+  }
 
-  // set the charge button visibility
-  positionChargeButton();
 }
 
 // pointsToEnergy takes the points from the 'player' and adds it to that player's energy
@@ -454,9 +479,23 @@ function showBattle() {
 }
 
 function gameModeBattle() {
-  showBattle();
-  populateActionBars();
-  Battle.setHP();
+  window.setTimeout(function(){
+    // set the mode to battle in the game object
+    game.mode = 'battle';
+
+    // show the battle window
+    showBattle();
+
+    // set the action bars with the abilities earned
+    populateActionBars();
+
+    // set the activation color filter for buttons
+    setActionBarReady();
+
+    // set the current player's action bar to green
+    switchPlayerBattle()
+    Battle.setHP();
+  },1000);
 }
 
 // determine which buttons appear in the action bars in the view
@@ -523,5 +562,351 @@ function populateActionBars() {
       }
     });
   });
+}
 
+// add event listeners to buttons on each action bar.
+function actionBarListeners() {
+  actionBar1.forEach(function(button){
+    button.style.display = 'block';
+  });
+  actionBar2.forEach(function(button){
+    button.style.display = 'block';
+  });
+
+  // add event listeners to buttons on action bar for pig 2
+  actionBar1.forEach(function(button){
+    var buttonIndex = actionBar1dex.indexOf(button);
+    actionBar1[buttonIndex].addEventListener('mouseover', function(){
+      var tooltipRef = document.querySelector('.battle-wrapper .tooltip-info-box');
+      var tipText = Battle.pig1Data.hoverText[buttonIndex];
+      tooltipRef.innerHTML = tipText;
+    });
+    actionBar1[buttonIndex].addEventListener('click',function(){
+      switch (buttonIndex) {
+        case 0:
+          if (!game.turn) {
+            Battle.pig1Data.doAttack();
+          }
+          break;
+        case 1:
+          if (!game.turn) {
+            if (Pigs.pig1Stats.currentTurnsToRoot === 0) {
+              if (player1.energy >= 20) {
+                player1.energy -= 20;
+                setEnergy(player1);
+                Battle.pig1Data.doRoboRooter();
+              }
+            }
+          }
+          break;
+        case 2:
+          if (!game.turn) {
+            if (Pigs.pig1Stats.currentTurnsToToot === 0) {
+              if (player1.energy >= 25) {
+                player1.energy -= 25;
+                setEnergy(player1);
+                Battle.pig1Data.doRoboTooter();
+              }
+            }
+          }
+          break;
+        case 3:
+          if (!game.turn) {
+            if (Pigs.pig1Stats.currentTurnsToArmor === 0) {
+              if (player1.energy >= 25) {
+                player1.energy -= 25;
+                setEnergy(player1);
+                Battle.pig1Data.doRoboArmor();
+              }
+            }
+          }
+          break;
+        case 4:
+          if (!game.turn) {
+            if (Pigs.pig1Stats.currentTurnsToCupcake === 0) {
+              Battle.pig1Data.doCupcake();
+            }
+          }
+          break;
+        default:
+          console.log('something went wrong on pig 1!');
+          break;
+      }
+    });
+  });
+
+  // add event listeners to buttons on action bar for pig 2
+  actionBar2.forEach(function(button){
+    var buttonIndex = actionBar2dex.indexOf(button);
+    actionBar2[buttonIndex].addEventListener('mouseover', function(){
+      var tooltipRef = document.querySelector('.battle-wrapper .tooltip-info-box');
+      var tipText = Battle.pig2Data.hoverText[buttonIndex];
+      tooltipRef.innerHTML = tipText;
+    });
+    actionBar2[buttonIndex].addEventListener('click',function(){
+      switch (buttonIndex) {
+        case 0:
+          if (game.turn) {
+            Battle.pig2Data.doAttack();
+          }
+          break;
+        case 1:
+          if (game.turn) {
+            if (Pigs.pig2Stats.currentTurnsToRoot === 0) {
+              if (player2.energy >= 20) {
+                player2.energy -= 20;
+                setEnergy(player2);
+                Battle.pig2Data.doRoboRooter();
+              }
+            }
+          }
+          break;
+        case 2:
+          if (game.turn) {
+            if (Pigs.pig2Stats.currentTurnsToToot === 0) {
+              if (player2.energy >= 25) {
+                player2.energy -= 25;
+                setEnergy(player2);
+                Battle.pig2Data.doRoboTooter();
+              }
+            }
+          }
+          break;
+        case 3:
+          if (game.turn) {
+            if (Pigs.pig2Stats.currentTurnsToArmor === 0) {
+              if (player2.energy >= 25) {
+                player2.energy -= 25;
+                setEnergy(player2);
+                Battle.pig2Data.doRoboArmor();
+              }
+            }
+          }
+          break;
+        case 4:
+          if (game.turn) {
+            if (Pigs.pig2Stats.currentTurnsToCupcake === 0) {
+              Battle.pig2Data.doCupcake();
+            }
+          }
+          break;
+        default:
+          console.log('something went wrong on pig 2!');
+          break;
+      }
+    });
+  });
+}
+
+function setActionBarReady() {
+
+  actionBar1.forEach(function(button){
+    var buttonIndex = actionBar1dex.indexOf(button);
+      switch (buttonIndex) {
+        case 0:
+          break;
+        case 1:
+          if (!Pigs.pig1Stats.hasRooter) return;
+          if (player1.energy < 20 || Pigs.pig1Stats.currentTurnsToRoot > 0) {
+            if (!button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          } else if (player1.energy >= 20 && Pigs.pig1Stats.currentTurnsToRoot === 0) {
+            if (button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          }
+          break;
+        case 2:
+          if (!Pigs.pig1Stats.hasTooter) return;
+          if (player1.energy < 25 || Pigs.pig1Stats.currentTurnsToToot > 0) {
+            if (!button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          } else if (player1.energy >= 25 && Pigs.pig1Stats.currentTurnsToToot === 0) {
+            if (button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          }
+          break;
+        case 3:
+          if (!Pigs.pig1Stats.hasArmor) return;
+          if (player1.energy < 25 || Pigs.pig1Stats.currentTurnsToArmor > 0) {
+            if (!button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            } else if (player1.energy >= 25 && Pigs.pig1Stats.currentTurnsToArmor === 0) {
+              if (button.classList.contains('trop')) {
+                button.classList.toggle('trop');
+              }
+            }
+          }
+          break;
+        case 4:
+          if (Pigs.pig1Stats.currentTurnsToCupcake > 0) {
+            if (!button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          } else {
+            if (button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          }
+          break;
+        default:
+          break;
+      }
+  });
+  actionBar2.forEach(function(button){
+    var buttonIndex = actionBar2dex.indexOf(button);
+      switch (buttonIndex) {
+        case 0:
+          break;
+        case 1:
+          if (!Pigs.pig2Stats.hasRooter) return;
+          if (player2.energy < 20 || Pigs.pig2Stats.currentTurnsToRoot > 0) {
+            if (!button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          } else if (player2.energy >= 20 && Pigs.pig2Stats.currentTurnsToRoot === 0) {
+            if (button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          }
+          break;
+        case 2:
+          if (!Pigs.pig2Stats.hasTooter) return;
+          if (player2.energy < 25 || Pigs.pig2Stats.currentTurnsToToot > 0) {
+            if (!button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          } else if (player2.energy >= 25 && Pigs.pig2Stats.currentTurnsToToot === 0) {
+            if (button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          }
+          break;
+        case 3:
+          if (!Pigs.pig2Stats.hasArmor) return;
+          if (player2.energy < 25 || Pigs.pig2Stats.currentTurnsToArmor > 0) {
+            if (!button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          } else if (player2.energy >= 25 && Pigs.pig2Stats.currentTurnsToArmor === 0) {
+            if (button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          }
+          break;
+        case 4:
+          if (Pigs.pig2Stats.currentTurnsToCupcake > 0) {
+            if (!button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          } else {
+            if (button.classList.contains('trop')) {
+              button.classList.toggle('trop');
+            }
+          }
+          break;
+        default:
+          break;
+      }
+  });
+}
+
+function switchPlayerBattle() {
+  var p1 = document.querySelector('.pig-1-commands');
+  var p2 = document.querySelector('.pig-2-commands');
+
+  if (!game.turn) {
+    if (!p1.classList.contains('battle-active')) {
+      p1.classList.toggle('battle-active');
+    }
+    if (p2.classList.contains('battle-active')) {
+      p2.classList.toggle('battle-active');
+    }
+  } else {
+    if (p1.classList.contains('battle-active')) {
+      p1.classList.toggle('battle-active');
+    }
+    if (!p2.classList.contains('battle-active')) {
+      p2.classList.toggle('battle-active');
+    }
+  }
+}
+
+function announceWinner() {
+  showGameOver();
+  var winnerText = document.querySelector('.winner');
+  winnerText.innerText = `Winner: ${game.winner}`;
+}
+
+function hideGameOver() {
+  gameOverScreen.style.display = 'none';
+  gameOverScreen.style.pointerEvents = 'none';
+}
+
+function showGameOver() {
+  gameOverScreen.style.display = 'block';
+  gameOverScreen.style.pointerEvents = 'auto';
+  game.started = false;
+}
+
+function linkNewGame() {
+  var newGameButton = document.querySelector('.newGame');
+  newGameButton.addEventListener('click', function(){
+    startNewGame();
+  });
+}
+
+function startNewGame() {
+  // reset player stats
+  player1.energy = 0;
+  player1.points = 0;
+  player2.energy = 0;
+  player2.points = 0;
+
+  // reset game mode stats
+  game.started = true;
+  game.turn = false;
+  game.battleOver = false;
+  game.winner = '';
+  game.mode = 'pig';
+
+  // resest battle text box
+  Battle.textBox.innerHTML = '';
+  Battle.textCount = 0;
+  tooltipBox.innerHTML = '';
+
+
+  // toggle pig stats and reset pig equipment status
+  Pigs.pig1Stats.hp = Pigs.pig1Stats.maxhp;
+  Pigs.pig2Stats.hp = Pigs.pig2Stats.maxhp;
+  if (Pigs.pig1Stats.hasArmor) {
+    Pigs.pig1.toggleArmor();
+  }
+  if (Pigs.pig2Stats.hasArmor) {
+    Pigs.pig2.toggleArmor();
+  }
+  Pigs.pig1Stats.armorUp = 0;
+  Pigs.pig2Stats.armorUp = 0;
+  if (Pigs.pig1Stats.hasRooter) {
+    Pigs.pig1.toggleRooter();
+  }
+  if (Pigs.pig2Stats.hasRooter) {
+    Pigs.pig2.toggleRooter();
+  }
+  if (Pigs.pig1Stats.hasTooter) {
+    Pigs.pig1.toggleTooter();
+  }
+  if (Pigs.pig2Stats.hasRooter) {
+    Pigs.pig2.toggleTooter();
+  }
+  Pigs.pig1Stats.currentTurnsToCupcake = Pigs.pig1Stats.turnsToCupcake;
+  Pigs.pig2Stats.currentTurnsToCupcake = Pigs.pig2Stats.turnsToCupcake;
+  Pigs.pig1Stats.poisonTurns = 0;
+  Pigs.pig2Stats.poisonTurns = 0;
+
+  hideBattle();
+  hideGameOver();
 }

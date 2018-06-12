@@ -306,8 +306,6 @@ i {
     transition: margin 0.3s;
 }
 
-.btn-new { top: 1.5rem;}
-
 .btn-hold {
   position:relative;
   top: 3rem;
@@ -321,7 +319,7 @@ i {
 .dice {
     position: absolute;
     left: 50%;
-    top: 5.6rem;
+    top: 3.6rem;
     transform: translateX(-50%);
     height: 12rem;
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
@@ -329,12 +327,20 @@ i {
     z-index:600;
 }
 
-.shake:hover {
+.shake {
   /* Start the shake animation and make the animation last for 0.5 seconds */
     animation: shake 0.5s;
     /* When the animation is finished, start again */
     animation-iteration-count: infinite;
 }
+
+.shakeRev {
+  /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 0.5s;
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite;
+}
+
 
 @keyframes shake {
     0% { transform: translate(-1px, 1px) translateX(-50%) rotate(0deg); }
@@ -349,6 +355,22 @@ i {
     90% { transform: translate(1px, 2px) translateX(-50%) rotate(0deg); }
     100% { transform: translate(1px, -2px) translateX(-50%) rotate(-1deg); }
 }
+
+@keyframes shakeRev {
+    0% { transform: translate(-1px, 1px) translateX(50%) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) translateX(50%) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) translateX(50%) rotate(1deg); }
+    30% { transform: translate(3px, 2px) translateX(50%) rotate(0deg); }
+    40% { transform: translate(1px, -1px) translateX(50%) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) translateX(50%) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) translateX(50%) rotate(0deg); }
+    70% { transform: translate(3px, 1px) translateX(50%) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) translateX(50%) rotate(1deg); }
+    90% { transform: translate(1px, 2px) translateX(50%) rotate(0deg); }
+    100% { transform: translate(1px, -2px) translateX(50%) rotate(-1deg); }
+}
+
+
 
 
 .winner { background-color: #f7f7f7; }
@@ -370,12 +392,12 @@ i {
   margin-left:auto;
   margin-right:auto;
   box-shadow: none;
+  pointer-events:none;
 }
 
 .pig-wrapper {
   display: flex;
   justify-content:space-between;
-
 }
 
 .pig-back-1 {
@@ -680,6 +702,10 @@ i {
   color:rgba(250,250,150,0.9);
 }
 
+.healing {
+  color:rgba(150,250,150,0.9);
+}
+
 .context-filter {
   height:100%;
   width:100%;
@@ -697,7 +723,7 @@ i {
 
 #pig-battle {
   position:relative;
-  bottom: 170vh;
+  bottom: 174.5vh;
 }
 
 .pig-battle-back {
@@ -719,6 +745,8 @@ i {
   margin-left:auto;
   margin-right:auto;
   margin-top:8rem;
+  padding-left:2%;
+  padding-right:2%;
   background-color:rgba(180,180,180,.8);
   display:flex;
   justify-content:space-between;
@@ -741,7 +769,21 @@ i {
 .battle-wrapper button:hover {
   background-color:rgb(220,220,120);
   color:rgba(55,55,55,.9);
+}
 
+.battle-wrapper .trop:hover {
+  background-color:rgb(80,60,60);
+  color:rgba(255,255,220,.9);
+}
+
+.battle-wrapper .trop {
+  background-color:rgb(80,60,60);
+  color:rgba(255,255,220,.9);
+}
+
+
+.info-bar {
+  width: 14rem;
 }
 
 .battle-wrapper h3 {
@@ -759,5 +801,92 @@ i {
 }
 
 .battle-active {
-  background-color:rgba(220,220,220,.8);
+  background-color:rgba(120,200,120,.8);
+}
+
+.battle-wrapper .tooltip-info-box {
+  margin-top:2rem;
+}
+
+.battle-text {
+  margin-top:4rem;
+  padding:.2rem;
+  height: 14rem;
+  width:inherit;
+  max-width:100%;
+  background-color:rgba(20,30,20,.95);
+  color:rgba(220,220,225,.95);
+  border:solid 1px rgba(220,230,220,1);
+  font-family:'Alegrey', serif;
+  font-size:.9rem;
+  word-wrap:break-word;
+  line-height:1.1rem;
+  overflow-y:scroll;
+  overflow-x:hidden;
+}
+
+.battle-text p {
+  margin-bottom:.3rem;
+}
+
+
+/*-------------------------------
+********game over styling
+-------------------------------*/
+
+#game-over {
+  position:relative;
+  bottom: 174.5vh;
+  height: 100vh;
+  width:100%;
+  background-color:rgba(230,230,230,.9);
+  color:rgba(60,60,60,.8);
+  z-index: 1000;
+  padding-top:12rem;
+}
+
+.game-over-info-box {
+  height: 20rem;
+  background-color:rgba(80,80,80,1);
+  color:rgba(255,255,255,.8);
+  width:80%;
+
+  text-align:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#game-over h2, #game-over h3 {
+  font-family:'Francois One';
+  background-color:inherit;
+  color:rgba(255,255,255,.8);
+  margin-bottom:1rem;
+}
+
+#game-over h2 {
+  font-size:3rem;
+}
+
+#game-over h3 {
+  font-size:2rem;
+}
+
+#game-over button {
+  background-color:rgba(180,180,180,.9);
+  color:rgb(60,60,60,.8);
+  width:10rem;
+  height:3rem;
+  margin-right:auto;
+  margin-left:auto;
+  font-family:'Alegreyal', serif;
+  font-size:1.5rem;
+  padding:.4rem;
+}
+
+#game-over button:hover {
+  background-color:rgba(180,230,180,.9);
 }

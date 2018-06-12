@@ -1,5 +1,38 @@
 // RoboPig is a two-stage game of energy aquisition and battle of RoboPigs
 
+////////////////////////////////////////////
+// *** function directory
+/*
+
+--- Global variable assignment
+--- Initial game condition function calls
+--- Event Listeners
+
+--- resizeText()
+--- appDiceRoll()
+--- setEnergy()
+--- positionChargeButton()
+--- toggleTurn()
+--- pointsToEnergy()
+--- setScoreBox()
+--- setContextFilters()
+--- hideBattle()
+--- showBattle()
+--- gameModeBattle()
+--- populateActionBars()
+--- actionBarListeners()
+--- setActionBarReady()
+--- switchPlayerBattle()
+--- announceWinner()
+--- hideGameOver()
+--- showGameOver()
+--- linkNewGame()
+--- startNewGame()
+--- hidePigStore()
+--- showPigStore()
+
+
+*/
 // ---------------------------------
 // global variable assignment
 // ---------------------------------
@@ -16,6 +49,7 @@ var storeFronts = document.querySelectorAll('.store-item');
 var tooltipBox = document.querySelector('.tooltip-info-box');
 
 var gameOverScreen = document.querySelector('#game-over');
+var pigStore = document.querySelector('#pig-store');
 
 
 // player objects
@@ -87,9 +121,6 @@ linkNewGame();
 // Hide Battle and Game Over screens (shown on load for event listeners)
 hideBattle();
 hideGameOver();
-
-showBattle();
-hideBattle();
 
 // temporary Developer commands for testing functionality
 window.addEventListener('keypress', function(k) {
@@ -486,6 +517,9 @@ function gameModeBattle() {
     // show the battle window
     showBattle();
 
+    // hide the pig store
+    hidePigStore();
+
     // set the action bars with the abilities earned
     populateActionBars();
 
@@ -495,6 +529,7 @@ function gameModeBattle() {
     // set the current player's action bar to green
     switchPlayerBattle()
     Battle.setHP();
+
   },1000);
 }
 
@@ -909,4 +944,13 @@ function startNewGame() {
 
   hideBattle();
   hideGameOver();
+  showPigStore();
+}
+
+function hidePigStore() {
+  pigStore.style.visibility: 'hidden';
+}
+
+function showPigStore() {
+  pigStore.style.visibility: 'visible';
 }

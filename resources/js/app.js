@@ -639,6 +639,10 @@ function actionBarListeners() {
         case 4:
           if (!game.turn) {
             if (Pigs.pig1Stats.currentTurnsToCupcake === 0) {
+              player1.energy += 5;
+              if (player1.energy > game.maxEnergy) {
+                player1.energy = game.maxEnergy;
+              }
               Battle.pig1Data.doCupcake();
             }
           }
@@ -701,6 +705,10 @@ function actionBarListeners() {
         case 4:
           if (game.turn) {
             if (Pigs.pig2Stats.currentTurnsToCupcake === 0) {
+              player2.energy += 5;
+              if (player2.energy > game.maxEnergy) {
+                player2.energy = game.maxEnergy;
+              }
               Battle.pig2Data.doCupcake();
             }
           }

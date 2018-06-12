@@ -154,7 +154,7 @@ Pigs.pig1Stats = {
   takeDamage: function(dam, conText) {
     var Tdamage = dam;
     if (this.armorUp > 0) {
-      Tdamage /= 2;
+      Tdamage *= (this.armorAbsorb /100);
     }
     this.hp -= Math.floor(Tdamage);
     if (this.hp < 0) {
@@ -336,7 +336,7 @@ Pigs.pig2Stats = {
   takeDamage: function(dam, conText) {
     var Tdamage = dam;
     if (this.armorUp > 0) {
-      Tdamage /= 2;
+      Tdamage *= (this.armorAbsorb /100);
     }
     this.hp -= Math.floor(Tdamage);
     if (this.hp < 0) {

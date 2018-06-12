@@ -54,7 +54,7 @@ Battle.pig1Data = {
 
       `<div class="tooltip">
         <h3>Cupcake</h3><p>Cost: Bit 'o love!</p>
-        <span>Heal RoboPig for <span class="healing">20-50 health!</span></span>
+        <span>Heal RoboPig for <span class="healing">20-50 health!</span> Also gives 5 energy.</span>
         <p>Serve the public trust, protect the innocent, eat cupcakes!</p>
       </div>`
   ],
@@ -127,7 +127,7 @@ Battle.pig2Data = {
 
       `<div class="tooltip">
         <h3>Cupcake</h3><p>Cost: Bit 'o love!</p>
-        <span>Heal RoboPig for <span class="healing">20-50 health!</span></span>
+        <span>Heal RoboPig for <span class="healing">20-50 health!</span> Also gives 5 energy.</span>
         <p>Serve the public trust, protect the innocent, eat cupcakes!</p>
       </div>`
   ],

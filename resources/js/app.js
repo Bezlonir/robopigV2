@@ -122,29 +122,9 @@ linkNewGame();
 hideBattle();
 hideGameOver();
 
-// temporary Developer commands for testing functionality
+// temporary Developer commands for testing functionality -- removed. --may reuse to allow key shortcuts for battle mode because this interface sucks and is tedious
 window.addEventListener('keypress', function(k) {
-  if (k.charCode === 100) {
-    Pigs.pig2.toggleTooter();
-  } else if (k.charCode === 97) {
-    Pigs.pig2.toggleRooter();
-  } else if (k.charCode === 115) {
-    Pigs.pig2.toggleArmor();
-  } else if (k.charCode === 101) {
-    if (player2.energy < 91) {
-      player2.energy += 10;
-      Pigs.pig2.setEyeTrans(player2.energy);
-      setEnergy(player2);
-    }
-  } else if (k.charCode === 113) {
-    if (player2.energy > 11) {
-      player2.energy -= 10;
-      Pigs.pig2.setEyeTrans(player2.energy);
-      setEnergy(player2);
-    }
-  } else if (k.charCode === 114) {
-    toggleTurn();
-  }
+
 
 });
 

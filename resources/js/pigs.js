@@ -156,7 +156,7 @@ Pigs.pig1Stats = {
     if (this.armorUp) {
       damage /= 2;
     }
-    this.hp -= Math.foor(damage);
+    this.hp -= Math.floor(damage);
     if (this.hp < 0) {
       this.hp = 0;
       game.battleOver = true;
@@ -338,7 +338,7 @@ Pigs.pig2Stats = {
     if (this.armorUp) {
       damage /= 2;
     }
-    this.hp -= Math.foor(damage);
+    this.hp -= Math.floor(damage);
     if (this.hp < 0) {
       this.hp = 0;
       game.battleOver = true;

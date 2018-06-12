@@ -644,6 +644,8 @@ function actionBarListeners() {
                 player1.energy = game.maxEnergy;
               }
               Battle.pig1Data.doCupcake();
+              setEnergy(player1);
+              Pigs.pig1.setEyeTrans();
             }
           }
           break;
@@ -710,6 +712,8 @@ function actionBarListeners() {
                 player2.energy = game.maxEnergy;
               }
               Battle.pig2Data.doCupcake();
+              setEnergy(player2);
+              Pigs.pig2.setEyeTrans();
             }
           }
           break;

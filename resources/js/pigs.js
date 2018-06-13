@@ -154,9 +154,7 @@ Pigs.pig1Stats = {
   takeDamage: function(dam, conText) {
     var Tdamage = dam;
     if (this.armorUp > 0) {
-      console.log(Tdamage);
       Tdamage *= (this.armorAbsorb / 100);
-      console.log(Tdamage);
     }
     this.hp -= Math.floor(Tdamage);
     if (this.hp < 0) {
@@ -164,7 +162,7 @@ Pigs.pig1Stats = {
       game.battleOver = true;
       game.winner = 'Player 2';
     }
-    Battle.addText(`<span>RoboPig 1 takes <span class="damage">${dam} damage</span> from ${conText}</span>`);
+    Battle.addText(`<span>RoboPig 1 takes <span class="damage">${Tdamage} damage</span> from ${conText}</span>`);
     Battle.setHP();
     this.shake();
   },
@@ -338,9 +336,7 @@ Pigs.pig2Stats = {
   takeDamage: function(dam, conText) {
     var Tdamage = dam;
     if (this.armorUp > 0) {
-      console.log(Tdamage);
       Tdamage *= (this.armorAbsorb /100);
-      console.log(Tdamage);
     }
     this.hp -= Math.floor(Tdamage);
     if (this.hp < 0) {
@@ -348,7 +344,7 @@ Pigs.pig2Stats = {
       game.battleOver = true;
       game.winner = 'Player 1';
     }
-    Battle.addText(`<p>RoboPig 2 takes <span class="damage">${dam} damage</span> from ${conText}</p>`);
+    Battle.addText(`<p>RoboPig 2 takes <span class="damage">${Tdamage} damage</span> from ${conText}</p>`);
     Battle.setHP();
     this.shake();
   },

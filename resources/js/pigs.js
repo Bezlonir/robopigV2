@@ -113,179 +113,126 @@ Pigs.pig2 = new Pig(2, p2Frame);
 
 
 // ------------------------------------------------
-// ------- Pig 1 Stats *************************
+// ------- Pig Stat Objects ********************
 // ------------------------------------------------
 
+var PigStats = function(pigNum) {
+  this.number = pigNum;
+  this.energy = 0;
+  this.hp = 120;
+  this.maxhp = 120;
+  this.hasArmor = false;
+  this.armorAbsorb = 50;
+  this.armorUp = 0;
+  this.turnsToArmor = 5;
+  this.currentTurnsToArmor = 0;
+  this.hasRooter = false;
+  this.turnsToRoot = 3;
+  this.currentTurnsToRoot = 0;
+  this.hasTooter = false;
+  this.turnsToToot = 3;
+  this.currentTurnsToToot = 0;
+  this.turnsToCupcake = 4;
+  this.currentTurnsToCupcake = 4;
+  this.inBattle = false;
+  this.poisonTurns = 0;
+}
 
-Pigs.pig1Stats = {
-  energy: 0,
-  hp: 120,
-  maxhp: 120,
-  hasArmor: false,
-  armorAbsorb: 50,
-  armorUp: 0,
-  turnsToArmor: 5,
-  currentTurnsToArmor: 0,
-  hasRooter: false,
-  turnsToRoot: 3,
-  currentTurnsToRoot: 0,
-  hasTooter: false,
-  turnsToToot: 3,
-  currentTurnsToToot: 0,
-  turnsToCupcake: 4,
-  currentTurnsToCupcake: 4,
-  inBattle: false,
-  poisonTurns: 0,
-  takeTurn: function() {
-    if (this.hasRooter) {
-      if (this.currentTurnsToRoot > 0) {
-        this.currentTurnsToRoot--;
-      }
-    }
-    if (this.hasTooter) {
-      if (this.currentTurnsToToot > 0) {
-        this.currentTurnsToToot--;
-      }
-    }
-    if (this.hasArmor) {
-      if (this.currentTurnsToArmor > 0) {
-        this.currentTurnsToArmor--;
-      }
-    }
-    if (this.currentTurnsToCupcake > 0) {
-      this.currentTurnsToCupcake--;
-    }
-    if (this.poisonTurns > 0) {
-      this.takeDamage(15,'RotoTooter poison cloud');
-      this.poisonTurns--;
-      if (this.poisonTurn === 0) {
-        Battle.addText(`<span>RoboPig 2's poison cloud has dispersed.</span>`);
-      }
-    }
-    if (this.armorUp > 0) {
-      this.armorUp --;
-      if (this.armorUp === 0) {
-        Battle.addText(`<span>RoboPig 1's armor fizzles out!`);
-      }
-    }
-  },
-  // apply damage from conText source to pig 1
-  takeDamage: function(dam, conText) {
-    var Tdamage = dam;
-    if (this.armorUp > 0) {
-      Tdamage *= (this.armorAbsorb / 100);
-    }
-    this.hp -= Math.floor(Tdamage);
-    if (this.hp < 0) {
-      this.hp = 0;
-      game.battleOver = true;
-      game.winner = 'Player 2';
-    }
-    Battle.addText(`<span>RoboPig 1 takes <span class="damage">${Tdamage} damage</span> from ${conText}</span>`);
-    Battle.setHP();
-    this.shake();
-  },
-  doHeal: function(heal, conText) {
-    this.hp += heal;
-    if (this.hp > this.maxhp) this.hp = this.maxhp;
-    Battle.addText(`<p>${conText} heals RoboPig 1 for <span class="healing">${heal} hp</span></p`);
-    Battle.setHP();
+
+// Derive the opponent's number for reference in message text
+PigStats.prototype.getOpponent = function() {
+  var oppNum = 0;
+  if (this.number === 1) {
+    oppNum = 2;
+  } else {
+    oppNum = 1;
   }
-  ,
-  shake: function() {
-    var pigTemp = document.querySelector('.pig-back-1');
+  return oppNum;
+}
+
+
+// Count down cooldowns on RoboPig abilities and debuffs
+PigStats.prototype.takeTurn = function() {
+  // Derive the opponent's number for reference in message text
+  var oppNum = this.getOpponent();
+
+  if (this.hasRooter) {
+    if (this.currentTurnsToRoot > 0) {
+      this.currentTurnsToRoot--;
+    }
+  }
+  if (this.hasTooter) {
+    if (this.currentTurnsToToot > 0) {
+      this.currentTurnsToToot--;
+    }
+  }
+  if (this.hasArmor) {
+    if (this.currentTurnsToArmor > 0) {
+      this.currentTurnsToArmor--;
+    }
+  }
+  if (this.currentTurnsToCupcake > 0) {
+    this.currentTurnsToCupcake--;
+  }
+  if (this.poisonTurns > 0) {
+    this.takeDamage(15,'RotoTooter poison cloud');
+    this.poisonTurns--;
+    if (this.poisonTurn === 0) {
+      Battle.addText(`<span>RoboPig ${oppNum}'s poison cloud has dispersed.</span>`);
+    }
+  }
+  if (this.armorUp > 0) {
+    this.armorUp --;
+    if (this.armorUp === 0) {
+      Battle.addText(`<span>RoboPig ${this.number}'s armor fizzles out!`);
+    }
+  }
+}
+
+
+// apply damage from conText source to pig
+PigStats.prototype.takeDamage = function(dam, conText) {
+  // Derive the opponent's number for reference in message text
+  var oppNum = this.getOpponent();
+
+  var Tdamage = dam;
+  if (this.armorUp > 0) {
+    Tdamage *= (this.armorAbsorb / 100);
+  }
+  this.hp -= Math.floor(Tdamage);
+  if (this.hp < 0) {
+    this.hp = 0;
+    game.battleOver = true;
+    if (game.winner = ' ') {
+      game.winner = `Player ${oppNum}`;
+    }
+  }
+  Battle.addText(`<p>RoboPig ${this.number} takes <span class="damage">${Tdamage} damage</span> from ${conText}</p>`);
+  Battle.setHP();
+  this.shake();
+}
+
+
+// apply healing to pig from conText source
+PigStats.prototype.doHeal = function(heal, conText) {
+  this.hp += heal;
+  if (this.hp > this.maxhp) this.hp = this.maxhp;
+
+  Battle.addText(`<p>${conText} heals RoboPig ${this.number} for <span class="healing">${heal} hp</span></p`);
+  Battle.setHP();
+}
+
+
+// perform a shake animation on pig upon request
+PigStats.prototype.shake = function() {
+  var pigName = `pig${this.number}`;
+  var pigTemp = document.querySelector(Pigs[pigName].imageFrame.pigImgClass);
+  pigTemp.classList.toggle('shake');
+  window.setTimeout(function(){
     pigTemp.classList.toggle('shake');
-    window.setTimeout(function(){
-      pigTemp.classList.toggle('shake');
-    }, 200);
-  }
+  }, 200);
 }
 
-
-// ------------------------------------------------
-// ------- Pig 2 Stats **************
-// ------------------------------------------------
-
-
-Pigs.pig2Stats = {
-  energy: 0,
-  hp: 120,
-  maxhp: 120,
-  hasArmor: false,
-  armorAbsorb: 50,
-  armorUp: 0,
-  turnsToArmor: 5,
-  currentTurnsToArmor: 5,
-  hasRooter: false,
-  turnsToRoot: 3,
-  currentTurnsToRoot: 3,
-  hasTooter: false,
-  turnsToToot: 3,
-  currentTurnsToToot: 3,
-  turnsToCupcake: 4,
-  currentTurnsToCupcake: 4,
-  inBattle: false,
-  poisonTurns: 0,
-  takeTurn: function() {
-    if (this.hasRooter) {
-      if (this.currentTurnsToRoot > 0) {
-        this.currentTurnsToRoot--;
-      }
-    }
-    if (this.hasTooter) {
-      if (this.currentTurnsToToot > 0) {
-        this.currentTurnsToToot--;
-      }
-    }
-    if (this.hasArmor) {
-      if (this.currentTurnsToArmor > 0) {
-        this.currentTurnsToArmor--;
-      }
-    }
-    if (this.currentTurnsToCupcake > 0) {
-      this.currentTurnsToCupcake--;
-    }
-    if (this.poisonTurns > 0) {
-      this.takeDamage(15,'RotoTooter poison cloud');
-      this.poisonTurns--;
-      if (this.poisonTurn === 0) {
-        Battle.addText(`<span>RoboPig 1's poison cloud has dispersed.</span>`)
-      }
-    }
-    if (this.armorUp > 0) {
-      this.armorUp --;
-      if (this.armorUp === 0) {
-        Battle.addText(`<span>RoboPig 2's armor fizzles out!`);
-      }
-    }
-  },
-  // apply damage from conText source to pig 1
-  takeDamage: function(dam, conText) {
-    var Tdamage = dam;
-    if (this.armorUp > 0) {
-      Tdamage *= (this.armorAbsorb /100);
-    }
-    this.hp -= Math.floor(Tdamage);
-    if (this.hp < 0) {
-      this.hp = 0;
-      game.battleOver = true;
-      game.winner = 'Player 1';
-    }
-    Battle.addText(`<p>RoboPig 2 takes <span class="damage">${Tdamage} damage</span> from ${conText}</p>`);
-    Battle.setHP();
-    this.shake();
-  },
-  doHeal: function(heal, conText) {
-    this.hp += heal;
-    if (this.hp > this.maxhp) this.hp = this.maxhp;
-    Battle.addText(`<p>${conText} heals RoboPig 2 for <span class="healing">${heal} hp</span></p`);
-    Battle.setHP();
-  },
-  shake: function() {
-    var pigTemp = document.querySelector('.pig-back-2');
-    pigTemp.classList.toggle('shakeRev');
-    window.setTimeout(function(){
-      pigTemp.classList.toggle('shakeRev');
-    }, 200);
-  }
-}
+// create pig stat objects
+Pigs.pig1Stats = new PigStats(1);
+Pigs.pig2Stats = new PigStats(2);

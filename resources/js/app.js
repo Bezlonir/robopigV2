@@ -9,6 +9,7 @@
 --- Event Listeners
 
 --- resizeText()
+--- pauseDice()
 --- appDiceRoll()
 --- setEnergy()
 --- positionChargeButton()
@@ -79,7 +80,7 @@ var game = {
   // false for player 1 turn, true for player 2 turn
   turn: false,
   battleOver: false,
-  winner: ''
+  winner: ' '
 }
 
 var actionBar1 = document.querySelectorAll('.pig-1-commands button');
@@ -140,7 +141,8 @@ window.addEventListener('keypress', function(k) {
 // Main Dice Game functionality is behind this event listener
 // ----------------------------------------
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-viewDice.addEventListener('click', function() {
+viewDice.addEventListener('click', function(e) {
+  e.preventDefault();
   appDiceRoll();
 });
 // ^^^^^^^^ dice game MAIN ^^^^^^^^^^^^^^^^
@@ -295,6 +297,14 @@ function resizeText() {
   root.style.fontSize = `${fontFactor.toString()}px`;
 }
 
+// make the dice unclickable for set time upon request
+function pauseDice() {
+  viewDice.classList.add('dice-inactive');
+  window.setTimeout(function(){
+    viewDice.classList.remove('dice-inactive');
+  }, 500)
+}
+
 // roll the dice and return the appropriate image and score
 function appDiceRoll() {
   // if game mode is 'pig', the dice game portion of game, roll the dice on player clicking on dice
@@ -316,6 +326,8 @@ function appDiceRoll() {
         player2.points = 0;
         setScoreBox(player2);
       }
+
+      pauseDice();
 
       // if the score is 1, the player's turn is over
       toggleTurn();
@@ -897,7 +909,7 @@ function startNewGame() {
   game.started = true;
   game.turn = false;
   game.battleOver = false;
-  game.winner = '';
+  game.winner = ' ';
   game.mode = 'pig';
 
   // resest battle text box
@@ -937,8 +949,10 @@ function startNewGame() {
   hideBattle();
   hideGameOver();
   showPigStore();
-  setEnergy();
-  setScoreBox();
+  setEnergy(player1);
+  setEnergy(player2);
+  setScoreBox(player1);
+  setScoreBox(player2);
 }
 
 function hidePigStore() {

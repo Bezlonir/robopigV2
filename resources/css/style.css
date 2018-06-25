@@ -83,11 +83,171 @@ body {
 
 }
 
+#main-view {
+  height:92vh;
+  width:100%;
+  display:flex;
+}
+
+/* ///////////////////////////////////
+******* Template
+/////////////////////////////////// */
+
+.store-1, .store-2, .pig-view-1, .pig-view-2, .game-unities {
+  border: 2px solid #111;
+  flex-basis:20%;
+}
+
+@media only screen and (max-width: 767px) {
+  .store-1, .store-2 {
+    flex-basis:5%;
+  }
+
+  .pig-view-1, .pig-view-2, .game-unities {
+    flex-basis:30%;
+  }
+}
+
+
+
+/* /////////////////////////////////////
+******* Player Frame Styling
+///////////////////////////////////// */
+
+.player-1-frame, .player-2-frame {
+  height: 20rem;
+  width: 16rem;
+  border: 1px solid #111;
+  display: flex;
+  flex-direction: column;
+  z-index:12;
+  position:relative;
+}
+
+.player-name-1, .player-name-2 {
+  height:10%;
+  width:100%;
+  background-color: rgb(220,220,220);
+  padding-left:1px;
+  padding-right:1px;
+  text-align:center;
+}
+
+.player-name-1 h3, .player-name-2 h3 {
+  font-family:'Allegreya', sans-serif;
+  font-weight: 500;
+  font-size: 1.8rem;
+  padding-top: 0.2rem;
+}
+
+.pig-main {
+  height: 90%;
+  width: 100%;
+  display: flex;
+
+}
+
+.primary-pig {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction:column;
+}
+
+.main-1 .pig-energy {
+  border-left: 1px solid rgba(20, 20, 60, 1);
+}
+
+.main-2 .pig-energy {
+  border-right: 1px solid rgba(20, 20, 60, 1);
+}
+
+.player-current-box {
+  background-color: #2D8B2D;
+  color: #fff;
+  height: 37%;
+  width: 100%;
+  margin: 0 auto;
+  /* padding: 12px; */
+  text-align: center;
+  display: flex;
+  flex-direction:column;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid rgba(20, 20, 60, 1);
+}
+
+.player-current-label {
+  text-transform: uppercase;
+  font-family:'Francois One', sans-serif;
+  font-size: 1.6rem;
+  color: #222;
+
+}
+
+.player-current-score {
+  font-family:'Francois One', sans-serif;
+  font-size: 3rem;
+  text-shadow: 1px 1px #3b3b3b,
+              -1px 1px #3b3b3b,
+              1px -1px #3b3b3b,
+              -1px -1px #3b3b3b,
+              0px 0px 5px #3b3b3b;
+}
+
+.pig-energy {
+  width:20%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background-color:rgb(120,120,120);
+}
+
+.energy-outer {
+  height: 70%;
+  width: 80%;
+  border: 1px solid rgba(60,60,60,.9);
+  border-radius:2rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  background-color: rgb(80,80,80);
+  overflow:hidden;
+}
+
+
+.energy-inside {
+  background: linear-gradient(-170deg, rgb(140,200,120) 0%, rgb(120,200,120) 100%);
+  display: flex;
+  align-items:center;
+  justify-content:center;
+  height:70%;
+  width:100%;
+  z-index:16;
+}
+
+.energy-count h4 {
+  font-family:'Francois One', sans-serif;
+  font-size: 1.8rem;
+  color: #4DCB4D;
+  padding-top: 0.2rem;
+  text-shadow: 1px 1px #3b3b3b,
+              -1px 1px #3b3b3b,
+              1px -1px #3b3b3b,
+              -1px -1px #3b3b3b;
+}
+
+
+
+
 /*////////////////////////////////////
 ******** Energy Bar styling
 ////////////////////////////////////*/
 
 
+
+/*
 #energy {
   pointer-events: none;
   position:relative;
@@ -180,7 +340,7 @@ body {
   height: 20rem;
   overflow: hidden;
   z-index:440;
-}
+} */
 
 /*/////////////////////////////////
 ********* Dice Game styling
@@ -235,7 +395,7 @@ body {
 .active { background-color: #f7f7f7; }
 .active .player-name { font-weight: 300; }
 
-.active .player-name::after {
+/* .active .player-name::after {
     content: "\2022";
     font-size: 3.2rem;
     position: absolute;
@@ -243,47 +403,21 @@ body {
     top: -0.8rem;
     right: 7rem;
 
-}
+} */
 
-.player-current-box {
-    background-color: #2D8B2D;
-    color: #fff;
-    width: 40%;
-    margin: 0 auto;
-    padding: 12px;
-    text-align: center;
-}
 
-.player-current-label {
-    text-transform: uppercase;
-    font-family:'Francois One', sans-serif;
-    margin-bottom: 10px;
-    font-size: 1.3rem;
-    color: #222;
-}
-
-.player-current-score {
-    font-family:'Francois One', sans-serif;
-    font-size: 3rem;
-}
-
+/*
 .player-current-score:before {
 
     font-size: 2rem;
-}
+} */
 
 
 button {
-    position: absolute;
-    width: 200px;
-    left: 50%;
-    transform: translateX(-50%);
+
     color: #555;
     background: none;
     border: none;
-    font-family: Lato;
-    font-size: 1.5rem;
-    text-transform: uppercase;
     cursor: pointer;
     font-weight: 300;
     transition: background-color 0.3s, color 0.3s;
@@ -294,42 +428,24 @@ img {
 }
 
 button:hover { font-weight: 600; }
-button:hover i { margin-right: 20px; }
 
 button:focus {
     outline: none;
 }
 
-i {
-    color: #4DCB4D;
-    display: inline-block;
-    margin-right: 15px;
-    font-size: 2.5rem;
-    line-height: 1;
-    vertical-align: text-top;
-    margin-top: -4px;
-    transition: margin 0.3s;
-}
-
 .btn-hold {
-  position:relative;
-  top: 3rem;
-  margin-top: -2rem;
-  left: 1rem;
-  transform: translateX(-50%);
-  font-size:2.5rem;
-  z-index:600;
+  width: 80%;
+  height:15%;
+  font-size:2rem;
+  z-index:10;
 }
 
 .dice {
-    position: absolute;
-    left: 50%;
-    top: 3.6rem;
-    transform: translateX(-50%);
     height: 12rem;
+    width: auto;
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
     transition: background-image 0.3s;
-    z-index:600;
+    z-index:14;
 }
 
 .dice-inactive {
@@ -379,9 +495,6 @@ i {
     100% { transform: translate(1px, -2px) translateX(50%) rotate(-1deg); }
 }
 
-
-
-
 .winner { background-color: #f7f7f7; }
 .winner .player-name { font-weight: 300; color: #EB4D4D; }
 
@@ -416,9 +529,8 @@ i {
   background-size:cover;
   background-repeat:no-repeat;
   overflow:hidden;
-  border: 2px solid rgba(20, 20, 60, 1);
-  width:16rem;
-  height:14rem;
+  width:100%;
+  height:63%;
 }
 
 .pig-back-1-shade {
@@ -479,9 +591,8 @@ i {
   background-size:cover;
   background-repeat:no-repeat;
   overflow:hidden;
-  border: 2px solid rgba(20, 20, 60, 1);
-  width:16rem;
-  height:14rem;
+  width:100%;
+  height:63%;
 }
 
 .pig-back-2-shade {
@@ -564,7 +675,7 @@ i {
 }
 
 .tooltip-info-box {
-  height: 10rem;
+  height: 16rem;
   width: 14rem;
   margin-top:10rem;
   background-color:rgb(80,80,80);

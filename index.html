@@ -13,97 +13,49 @@
         <link type="text/css" rel="stylesheet" href="./resources/css/reset.css">
         <link type="text/css" rel="stylesheet" href="./resources/css/style.css">
 
+        <!-- manifest to attempt to force landscape on mobile -->
+        <link rel="manifest" href="manifest.json">
 
     </head>
 
     <body>
-      <section id="pig-roll">
-        <div id="title">
-          <div class="title-wrap">
-            <span class="robo-title">Robo</span><span class= "pig-title">Pig!!</span>
-          </div>
+      <div id="title">
+        <div class="title-wrap">
+          <span class="robo-title">Robo</span><span class= "pig-title">Pig!!</span>
         </div>
-        <div class="wrapper clearfix">
-            <div class="player-1-panel active">
-                <div class="player-name" id="name-1">Player 1</div>
+      </div>
 
-                <div class="player-current-box">
-                    <div class="player-current-label">Current</div>
-                    <button class="btn-hold"><i class=""></i>&#9889</button>
-                    <div class="player-current-score" id="current-0">11</div>
-                </div>
-            </div>
-
-            <div class="player-2-panel">
-                <div class="player-name" id="name-2">Player 2</div>
-
-                <div class="player-current-box">
-                    <div class="player-current-label">Current</div>
-                    <button class="btn-hold"><i class=""></i>&#9889</button>
-                    <div class="player-current-score" id="current-1"> 0
-                    </div>
-                </div>
-            </div>
-
-            <img src="./resources/images/dice-5.png" alt="Dice" class="dice">
+      <section id="main-view">
+        <div class="store store-1">
+          store 1
+        </div>
+        <div class="pig pig-view-1">
+        </div>
+        <div class="game-unities">
+          game
+        </div>
+        <div class="pig pig-view-2">
+          pig 2
+        </div>
+        <div class="store store-2">
+          store 2
         </div>
       </section>
-      <section id="pig-store">
-        <div class="outer-pig-store-wrapper">
-          <div class="pig-store-wrapper">
-            <div class="pig-1-store">
-              <h3>RoboRooter</h3>
-              <div class="store-item">
-                <div class="context-filter">
-                  <div class="rooter-store-1">
-                  </div>
-                </div>
+
+      <div class="player-1-frame">
+        <div class="player-name-1">
+          <h3>Player 1</h3>
+        </div>
+        <div class="pig-main main-1">
+          <div class="primary-pig">
+            <div class="player-current-box">
+              <div class="player-current-label">
+                Charge
               </div>
-              <h3>RoboTooter</h3>
-              <div class="store-item">
-                <div class="context-filter">
-                  <div class="tooter-store-1">
-                  </div>
-                </div>
+              <div class="player-current-score">
+                28
               </div>
-              <h3>RoboCake Armor</h3>
-              <div class="store-item">
-                <div class="context-filter">
-                  <div class="armor-store-1">
-                  </div>
-                </div>
-              </div>
-            </div> <!-- pig-1-store -->
-            <!-- tooltip info box is populated by event listeners in app.js -->
-            <div class="tooltip-info-box">
             </div>
-            <div class="pig-2-store">
-              <h3>RoboRooter</h3>
-              <div class="store-item">
-                <div class="context-filter">
-                  <div class="rooter-store-2">
-                  </div>
-                </div>
-              </div>
-              <h3>RoboTooter</h3>
-              <div class="store-item">
-                <div class="context-filter">
-                  <div class="tooter-store-2">
-                  </div>
-                </div>
-              </div>
-              <h3>RoboCake Armor</h3>
-              <div class="store-item">
-                <div class="context-filter">
-                  <div class="armor-store-2">
-                  </div>
-                </div>
-              </div>
-            </div> <!-- pig-2-store -->
-          </div> <!-- pig-store-wrapper -->
-        </section>
-        <section id="pig-display">
-          <div class="pig-wrapper">
             <div class="pig-back-1">
               <div class="pig-back-1-shade">
                 <div class="pig-1">
@@ -116,6 +68,44 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="pig-energy">
+            <button class="btn-hold">⚡</button>
+            <div class="energy-outer">
+              <div class="energy-inside">
+              </div>
+            </div>
+            <div class="energy-count">
+              <h4>70</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="player-2-frame">
+        <div class="player-name-2">
+          <h3>Player 1</h3>
+        </div>
+        <div class="pig-main main-2">
+          <div class="pig-energy">
+            <button class="btn-hold">⚡</button>
+            <div class="energy-outer">
+              <div class="energy-inside">
+              </div>
+            </div>
+            <div class="energy-count">
+              <h4>70</h4>
+            </div>
+          </div>
+          <div class="primary-pig">
+            <div class="player-current-box">
+              <div class="player-current-label">
+                Charge
+              </div>
+              <div class="player-current-score">
+                28
               </div>
             </div>
             <div class="pig-back-2">
@@ -134,88 +124,17 @@
             </div>
           </div>
         </div>
-      </section>
-      <section id="energy">
-        <div class="energy-wrap">
-          <div class="energy-container">
-            <div class="player-1-energy-bar">
-            </div>
-            <div class="player-1-energy-fill">
-              <div class="fill">
-              </div>
-            </div>
-          </div>
-          <div class="energy-container">
-            <div class="player-2-energy-bar">
-            </div>
-            <div class="player-2-energy-fill">
-              <div class="fill">
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="pig-battle">
-        <div class="pig-battle-back">
-          <h1>RoboPig Battle!!!</h1>
-          <div class="battle-wrapper">
-            <div class="pig-1-commands battle-active">
-              <h3 class="hp">HP: 120</h3>
-              <button class="attack-1">
-                Attack
-              </button>
-              <button class="rooter-action-1">
-                RoboRooter
-              </button>
-              <button class="tooter-action-1">
-                RoboTooter
-              </button>
-              <button class="armor-action-1">
-                RoboCake Armor
-              </button>
-              <button class="cupcake-action-1">
-                Cupcake
-              </button>
-            </div>
-            <div class="info-bar">
-              <div class="battle-text">
-              </div>
-              <div class="tooltip-info-box">
-              </div>
-            </div>
-            <div class="pig-2-commands">
-              <h3 class="hp">HP: 120</h3>
-              <button class="attack-1">
-                Attack
-              </button>
-              <button class="rooter-action-1">
-                RoboRooter
-              </button>
-              <button class="tooter-action-1">
-                RoboTooter
-              </button>
-              <button class="armor-action-1">
-                RoboCake Armor
-              </button>
-              <button class="cupcake-action-1">
-                Cupcake
-              </button>
-          </div>
-        </div>
-      </section>
-      <section id="game-over">
-        <div class="game-over-info-box">
-          <h2>Game Over!!</h2>
-          <h3 class="winner">Winner:</h3>
-          <div>
-            <button class="newGame">New Game</button>
-          </div>
-        </div>
-      </section>
+      </div>
+      <img src="./resources/images/dice-5.png" alt="Dice" class="dice">
+      <!-- tooltip info box is populated by event listeners in app.js -->
+      <div class="tooltip-info-box">
+      </div>
+      <script src="./resources/js/framer.js"></script>
       <script src="./resources/js/dice.js"></script>
+      <!--
       <script src="./resources/js/pigs.js"></script>
       <script src="./resources/js/store.js"></script>
       <script src="./resources/js/battle.js"></script>
-      <script src="./resources/js/app.js"></script>
+      <script src="./resources/js/app.js"></script> -->
     </body>
 </html>

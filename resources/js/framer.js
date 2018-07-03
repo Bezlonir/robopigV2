@@ -1,3 +1,13 @@
+//                          mainView
+// css store-1      | pig-view-1 | game-unities | ...
+// js (storeView1)  | (pigView1) | (gameView)   | ...
+//                  |            |              |
+//                  |            |              |
+//                  |            |              |
+//                  |            |              |
+//                  |            |              |
+
+
 var mainView = document.querySelector('#main-view');
 var objectPool = document.querySelector('#object-pool');
 
@@ -11,30 +21,29 @@ var diceFrame = document.querySelector('.dice');
 var diceTooltipFrame = document.querySelector('.tooltip-info-box');
 var gameView = document.querySelector('.game-unities');
 
+var player1Store = document.querySelector('.pig-1-store');
 var storeView1 = document.querySelector('.store-1');
+var player2Store = document.querySelector('.pig-2-store');
 var storeView2 = document.querySelector('.store-2');
 
 var inTransition = false;
 var init = false;
-
-var gameMode = 'dice';
 
 var animStates = {
   diceSlide: false,
   slidePos: false
 }
 
+
+
 mainView.addEventListener('transitionend', endAnimation);
 
 // listen for window resize and set root font size to match
 window.addEventListener('resize', resizeText);
 
-//pigView1.append(player1Frame);
-//animStates.diceSlide = true;
 resizeText();
-// positionDiceGameElements();
 
-// positionFrameInterior(pigView1, player1Frame);
+
 
 // positions frame inside target at vPos % of free vertical space and hPos % of free horizontal space (i.e. 50/50 is centered)
 function positionFrame(target, frame, vPos = 50, hPos = 50) {
@@ -49,11 +58,11 @@ function positionFrame(target, frame, vPos = 50, hPos = 50) {
 }
 
 function positionFrameInterior(target, frame, vPos = 50, hPos = 50) {
-  console.log('interior');
+
   const viewPos = target.getBoundingClientRect();
   frame.style.transform = 'translate(0,0)';
   const changePos = frame.getBoundingClientRect();
-  console.log(viewPos, changePos);
+
   const vOffset = (changePos.y) - viewPos.y - ((viewPos.height - changePos.height)*(vPos/100));
   const hOffset = (changePos.x) - viewPos.x + ((viewPos.width - changePos.width)*(hPos/100));
 
@@ -83,7 +92,7 @@ function resizeText() {
     });
 
   }
-  if (gameMode === 'dice') {
+  if (game.mode === 'pig') {
     if (init === false) {
       init = true;
       positionDiceGameElements();
@@ -115,10 +124,26 @@ function positionDiceGameElements() {
     }
   }
 
+  //position player 1 frame
   animStates.diceSlide ? positionFrameInterior(pigView1, player1Frame) : positionFrame(pigView1, player1Frame);
+  // position player 2 frame
   animStates.diceSlide ? positionFrameInterior(pigView2, player2Frame) : positionFrame(pigView2, player2Frame);
+  // position dice frame
   animStates.diceSlide ? positionFrameInterior(gameView, diceFrame, 10, 50) : positionFrame(gameView, diceFrame, 10, 50);
-  animStates.diceSlide ? positionFrameInterior(gameView, diceTooltipFrame, 70, 50) : positionFrame(gameView, diceTooltipFrame, 70, 50);
+  // position tooltip frame
+  animStates.diceSlide ? positionFrameInterior(gameView, diceTooltipFrame, 90, 50) : positionFrame(gameView, diceTooltipFrame, 90, 50);
+
+  if (!storeView1.classList.contains('collapsed') && !animStates.diceSlide) {
+    positionFrame(storeView1, player1Store);
+  } else if (!animStates.diceSlide) {
+    player1Store.style.transform = 'translate(0,0)';
+  }
+  if (!storeView2.classList.contains('collapsed') && !animStates.diceSlide) {
+    positionFrame(storeView2, player2Store);
+  } else if (!animStates.diceSlide) {
+    player2Store.style.transform = 'translate(0,0)';
+  }
+
 }
 
 storeView1.addEventListener('click', storeExpand.bind(null, storeView1));
@@ -127,8 +152,8 @@ storeView2.addEventListener('click', storeExpand.bind(null, storeView2));
 gameView.addEventListener('click', checkCollapse);
 pigView1.addEventListener('click', checkCollapse);
 pigView2.addEventListener('click', checkCollapse);
-
-
+player1Frame.addEventListener('click', checkCollapse);
+player2Frame.addEventListener('click', checkCollapse);
 
 function storeExpand(store) {
   animStates.diceSlide = true;
@@ -165,11 +190,14 @@ function storeExpand(store) {
 }
 
 function checkCollapse(e) {
-
+  if (!game.mode === 'pig') return;
+  
   if (document.querySelector('.expanded')) {
     if (document.querySelector('.shift-left')) {
+      player2Store.style.transform = 'translate(0,0)';
       storeCollapse(storeView2);
     } else {
+      player1Store.style.transform = 'translate(0,0)';
       storeCollapse(storeView1);
     }
   }
@@ -226,7 +254,7 @@ function trackAnimation(e) {
 
 function endAnimation() {
   inTransition = false;
-  console.log("transitionEnd");
+
   setTimeout(function() {
     if (inTransition === false) {
       if (animStates.diceSlide) {

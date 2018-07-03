@@ -8,7 +8,7 @@
 --- Initial game condition function calls
 --- Event Listeners
 
---- resizeText()
+
 --- pauseDice()
 --- appDiceRoll()
 --- setEnergy()
@@ -45,13 +45,14 @@ var viewDice = document.querySelector('.dice');
 var hold = document.querySelectorAll('.btn-hold');
 var path = "'./resources/images/";
 
-var storeFronts = document.querySelectorAll('.store-item');
+// var storeFronts = document.querySelectorAll('.store-item');
 
 var tooltipBox = document.querySelector('.tooltip-info-box');
 
 var gameOverScreen = document.querySelector('#game-over');
-var pigStore = document.querySelector('#pig-store');
+//var pigStore = document.querySelector('#pig-store');
 
+var storeFronts = document.querySelectorAll('.store-item');
 
 // player objects
 var player1 = {
@@ -59,14 +60,16 @@ var player1 = {
   points: 0,
   playerNum: 1,
   name: 'Pig',
-  energyFillImgClass: '.player-1-energy-fill'
+  energyFillImgClass: '.player-1-frame .energy-inside',
+  energyNum: '.player-1-frame .energy-count'
 }
 var player2 = {
   energy: 0,
   points: 0,
   playerNum: 2,
   name: 'Pig',
-  energyFillImgClass: '.player-2-energy-fill'
+  energyFillImgClass: '.player-2-frame .energy-inside',
+  energyNum: '.player-2-frame .energy-count'
 }
 
 // essentially an enum for game modes
@@ -97,8 +100,7 @@ var battleFrame = document.querySelector('#pig-battle');
 // (script is at  EOF in index.html, so this is on page load)
 // --------------------------------------------
 
-// set the Root font size on page load (script is referenced at end of HTML file, so this is on page load)
-resizeText();
+
 
 // clear both players' energy bars on page load
 setEnergy(player1);
@@ -115,13 +117,13 @@ setScoreBox(player1);
 setScoreBox(player2);
 
 // link up actionBarListeners
-actionBarListeners();
+//actionBarListeners();
 // Link new game button
-linkNewGame();
+//linkNewGame();
 
 // Hide Battle and Game Over screens (shown on load for event listeners)
-hideBattle();
-hideGameOver();
+//hideBattle();
+//hideGameOver();
 
 // temporary Developer commands for testing functionality -- removed. --may reuse to allow key shortcuts for battle mode because this interface sucks and is tedious
 window.addEventListener('keypress', function(k) {
@@ -279,23 +281,9 @@ storeFronts[5].addEventListener('click', function(){
 
 
 
-
-// listen for window resize and set root font size to match
-window.addEventListener('resize', resizeText);
-
-
 // -------------------------------------
 // -------- dice game functions
 // -------------------------------------
-
-
-// reset the root font size
-function resizeText() {
-  var baseH = window.innerHeight;
-  var root = document.querySelector('html');
-  var fontFactor = (baseH / 45).toFixed(2);
-  root.style.fontSize = `${fontFactor.toString()}px`;
-}
 
 // make the dice unclickable for set time upon request
 function pauseDice() {
@@ -351,16 +339,20 @@ function appDiceRoll() {
 // set the size of the player's energy bar
 function setEnergy(player) {
   // get the container for filled graphic in the energy meter
-  var energyFill = document.querySelector(`${player.energyFillImgClass} .fill`);
+  var energyFill = document.querySelector(`${player.energyFillImgClass}`);
 
   // set the height of the container based on the energy to clip off the top of the energy bar
   energyFill.style.height = `${(player.energy / 100) * game.maxEnergy}%`;
-  if (player.energy <= 90) {
-    energyFill.style.width = '3.8rem';
 
-  } else {
-    energyFill.style.width = '3rem';
-  }
+  var energyNum = document.querySelector(`${player.energyNum}`);
+
+  energyNum.innerText = `${player.energy.toString()}`;
+  // if (player.energy <= 90) {
+  //   energyFill.style.width = '3.8rem';
+  //
+  // } else {
+  //   energyFill.style.width = '3rem';
+  // }
 
   setContextFilters();
 
@@ -374,17 +366,17 @@ function positionChargeButton() {
   var oppPlayerIndex = '';
   // set strings to be used in a query selector to determine the root from which to search for the button
   if (!game.turn) {
-    playerIndex = '.player-1-panel';
-    oppPlayerIndex = '.player-2-panel';
+    playerIndex = '.player-1-frame';
+    oppPlayerIndex = '.player-2-frame';
 
   } else {
-    playerIndex = '.player-2-panel';
-    oppPlayerIndex = '.player-1-panel';
+    playerIndex = '.player-2-frame';
+    oppPlayerIndex = '.player-1-frame';
   }
 
   // grab objects for each players' charge button in order to apply visibilty styling
-  var playerButton = document.querySelector(`${playerIndex} .player-current-box .btn-hold`);
-  var oppPlayerButton = document.querySelector(`${oppPlayerIndex} .player-current-box .btn-hold`);
+  var playerButton = document.querySelector(`${playerIndex} .btn-hold`);
+  var oppPlayerButton = document.querySelector(`${oppPlayerIndex} .btn-hold`);
 
   // toggle visibility
   playerButton.style.visibility = 'visible';
@@ -397,7 +389,7 @@ function toggleTurn() {
   var turnNum = 0;
   if (!game.turn) turnNum = 1; else turnNum = 2;
   // toggle the 'active' class off in the player's panel whose turn is ending
-  var oldTurn = document.querySelector(`.player-${turnNum}-panel`);
+  var oldTurn = document.querySelector(`.player-${turnNum}-frame .player-name`);
   oldTurn.classList.toggle('active');
 
   //change the turn in the game object
@@ -405,7 +397,7 @@ function toggleTurn() {
   if (!game.turn) turnNum = 1; else turnNum = 2;
 
   // toggle the 'active' class on in the player's panel whose turn is beginning
-  var newTurn = document.querySelector(`.player-${turnNum}-panel`);
+  var newTurn = document.querySelector(`.player-${turnNum}-frame .player-name`);
   newTurn.classList.toggle('active');
   if (game.mode === gameModes[0]) { // if game.mode = 'pig'
     // set the charge button visibility
@@ -452,7 +444,7 @@ function pointsToEnergy(player) {
 
 // sets the score box view for the player to the player's current score
 function setScoreBox(player) {
-  var scoreDOM = document.querySelector(`.player-${player.playerNum}-panel .player-current-score`);
+  var scoreDOM = document.querySelector(`.player-${player.playerNum}-frame .player-current-score`);
 
   scoreDOM.innerText = player.points;
 }

@@ -27,24 +27,24 @@
 
       <section id="main-view">
         <div class="store store-1">
-          store 1
+
         </div>
         <div class="pig pig-view-1">
         </div>
         <div class="game-unities">
-          game
+
         </div>
         <div class="pig pig-view-2">
-          pig 2
+
         </div>
         <div class="store store-2">
-          store 2
+          
         </div>
       </section>
 
       <section id="object-pool">
         <div class="player-1-frame">
-          <div class="player-name-1">
+          <div class="player-name-1 player-name active">
             <h3>Player 1</h3>
           </div>
           <div class="pig-main main-1">
@@ -86,7 +86,7 @@
         </div>
 
         <div class="player-2-frame">
-          <div class="player-name-2">
+          <div class="player-name-2 player-name">
             <h3>Player 1</h3>
           </div>
           <div class="pig-main main-2">
@@ -130,13 +130,79 @@
         <!-- tooltip info box is populated by event listeners in app.js -->
         <div class="tooltip-info-box">
         </div>
-      </section>
-      <script src="./resources/js/framer.js"></script>
+
+        <div class="pig-1-store">
+              <section>
+                <h3>RoboRooter</h3>
+                <div class="store-item">
+                  <div class="rooter-store-1">
+                    <div class="context-filter">
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section>
+                <h3>RoboTooter</h3>
+                <div class="store-item">
+                  <div class="tooter-store-1">
+                    <div class="context-filter">
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section>
+              <h3>RoboCake Armor</h3>
+                <div class="store-item">
+                  <div class="armor-store-1">
+                    <div class="context-filter">
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div> <!-- pig-1-store end -->
+            <div class="pig-2-store">
+              <section>
+                <h3>RoboRooter</h3>
+                <div class="store-item">
+                  <div class="rooter-store-2">
+                    <div class="context-filter">
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section>
+                <h3>RoboTooter</h3>
+                <div class="store-item">
+                  <div class="tooter-store-2">
+                    <div class="context-filter">
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section>
+                <h3>RoboCake Armor</h3>
+                <div class="store-item">
+                  <div class="armor-store-2">
+                    <div class="context-filter">
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div> <!-- pig-2-store -->
+          <div class="game-over-info-box">
+            <h2>Game Over!!</h2>
+            <h3 class="winner">Winner:</h3>
+            <div>
+              <button class="newGame">New Game</button>
+            </div>
+        </div>
+      </section> <!-- end of ObjectPool -->
       <script src="./resources/js/dice.js"></script>
-      <!--
       <script src="./resources/js/pigs.js"></script>
       <script src="./resources/js/store.js"></script>
       <script src="./resources/js/battle.js"></script>
-      <script src="./resources/js/app.js"></script> -->
+      <script src="./resources/js/app.js"></script>
+      <script src="./resources/js/framer.js"></script>
+
     </body>
 </html>

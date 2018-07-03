@@ -1,4 +1,5 @@
 var mainView = document.querySelector('#main-view');
+var objectPool = document.querySelector('#object-pool');
 
 var player1Frame = document.querySelector('.player-1-frame');
 var pigView1 = document.querySelector('.pig-view-1');
@@ -18,14 +19,22 @@ var init = false;
 
 var gameMode = 'dice';
 
+var animStates = {
+  diceSlide: false,
+  slidePos: false
+}
+
 mainView.addEventListener('transitionend', endAnimation);
 
 // listen for window resize and set root font size to match
 window.addEventListener('resize', resizeText);
 
+//pigView1.append(player1Frame);
+//animStates.diceSlide = true;
 resizeText();
 // positionDiceGameElements();
 
+// positionFrameInterior(pigView1, player1Frame);
 
 // positions frame inside target at vPos % of free vertical space and hPos % of free horizontal space (i.e. 50/50 is centered)
 function positionFrame(target, frame, vPos = 50, hPos = 50) {
@@ -34,6 +43,19 @@ function positionFrame(target, frame, vPos = 50, hPos = 50) {
   const changePos = frame.getBoundingClientRect();
   const vOffset = (changePos.top) - viewPos.top - ((viewPos.height - changePos.height)*(vPos/100));
   const hOffset = (changePos.left) + viewPos.left + ((viewPos.width - changePos.width)*(hPos/100));
+
+  frame.style.transform = `translate(${hOffset}px, ${-vOffset}px)`;
+
+}
+
+function positionFrameInterior(target, frame, vPos = 50, hPos = 50) {
+  console.log('interior');
+  const viewPos = target.getBoundingClientRect();
+  frame.style.transform = 'translate(0,0)';
+  const changePos = frame.getBoundingClientRect();
+  console.log(viewPos, changePos);
+  const vOffset = (changePos.y) - viewPos.y - ((viewPos.height - changePos.height)*(vPos/100));
+  const hOffset = (changePos.x) - viewPos.x + ((viewPos.width - changePos.width)*(hPos/100));
 
   frame.style.transform = `translate(${hOffset}px, ${-vOffset}px)`;
 
@@ -93,10 +115,10 @@ function positionDiceGameElements() {
     }
   }
 
-  positionFrame(pigView1, player1Frame);
-  positionFrame(pigView2, player2Frame);
-  positionFrame(gameView, diceFrame, 10, 50);
-  positionFrame(gameView, diceTooltipFrame, 70, 50);
+  animStates.diceSlide ? positionFrameInterior(pigView1, player1Frame) : positionFrame(pigView1, player1Frame);
+  animStates.diceSlide ? positionFrameInterior(pigView2, player2Frame) : positionFrame(pigView2, player2Frame);
+  animStates.diceSlide ? positionFrameInterior(gameView, diceFrame, 10, 50) : positionFrame(gameView, diceFrame, 10, 50);
+  animStates.diceSlide ? positionFrameInterior(gameView, diceTooltipFrame, 70, 50) : positionFrame(gameView, diceTooltipFrame, 70, 50);
 }
 
 storeView1.addEventListener('click', storeExpand.bind(null, storeView1));
@@ -109,6 +131,8 @@ pigView2.addEventListener('click', checkCollapse);
 
 
 function storeExpand(store) {
+  animStates.diceSlide = true;
+
   // if store is not collapsed, exit function
   if (!store.classList.contains('collapsed') || window.innerWidth >= 767) {
     return;
@@ -153,6 +177,8 @@ function checkCollapse(e) {
 
 
 function storeCollapse(store) {
+  animStates.diceSlide = true;
+
   // if the store has a collapsed class, exit
   if (store.classList.contains('collapsed') || window.innerWidth >= 767) {
     return;
@@ -184,6 +210,16 @@ function trackAnimation(e) {
   if (inTransition) {
     return;
   }
+
+  if (animStates.diceSlide && !animStates.slidePos) {
+    socketFrame(pigView1, player1Frame);
+    socketFrame(pigView2, player2Frame);
+    socketFrame(gameView, diceTooltipFrame);
+    socketFrame(gameView, diceFrame);
+
+    positionDiceGameElements();
+    animStates.slidePos = true;
+  }
   inTransition = true;
 
 }
@@ -193,8 +229,20 @@ function endAnimation() {
   console.log("transitionEnd");
   setTimeout(function() {
     if (inTransition === false) {
+      if (animStates.diceSlide) {
+        socketFrame(objectPool, player1Frame);
+        socketFrame(objectPool, player2Frame);
+        socketFrame(objectPool, diceFrame);
+        socketFrame(objectPool, diceTooltipFrame);
+        animStates.diceSlide = false;
+        animStates.slidePos = false;
+      }
       positionDiceGameElements();
     }
   }, 30);
 
+}
+
+function socketFrame(target, frame) {
+  target.append(frame);
 }

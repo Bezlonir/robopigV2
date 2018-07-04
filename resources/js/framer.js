@@ -400,6 +400,8 @@ function foldDiceMode() {
   player2Store.style.transform = 'translate(0,0)';
   diceFrame.style.transform = 'translate(0,0)';
   diceTooltipFrame.style.transform = 'translate(0,0)';
+  piggy1.style.transform = 'translate(0,0)';
+  piggy2.style.transform = 'translate(0,0)';
   // socketFrame(objectPool, player1Frame);
   // socketFrame(objectPool, player2Frame);
 }

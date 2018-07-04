@@ -26,6 +26,9 @@ var storeView1 = document.querySelector('.store-1');
 var player2Store = document.querySelector('.pig-2-store');
 var storeView2 = document.querySelector('.store-2');
 
+var piggy1 = document.querySelector('.piggy-bank-1');
+var piggy2 = document.querySelector('.piggy-bank-2');
+
 var battleText = document.querySelector('.battle-text');
 
 var player1Battle = document.querySelector('.pig-1-commands');
@@ -57,12 +60,14 @@ function positionFrame(target, frame, vPos = 50, hPos = 50) {
   frame.style.transform = 'translate(0,0)';
   const changePos = frame.getBoundingClientRect();
   const vOffset = (changePos.top) - viewPos.top - ((viewPos.height - changePos.height)*(vPos/100));
-  const hOffset = (changePos.left) + viewPos.left + ((viewPos.width - changePos.width)*(hPos/100));
+  const hOffset = (viewPos.left - changePos.left) + ((viewPos.width - changePos.width)*(hPos/100));
 
   frame.style.transform = `translate(${hOffset}px, ${-vOffset}px)`;
 
 }
 
+
+// positions frame object inside target DOM container for use with CSS transitions. objects are not offset from the object pool in this case
 function positionFrameInterior(target, frame, vPos = 50, hPos = 50) {
 
   const viewPos = target.getBoundingClientRect();
@@ -70,7 +75,7 @@ function positionFrameInterior(target, frame, vPos = 50, hPos = 50) {
   const changePos = frame.getBoundingClientRect();
 
   const vOffset = (changePos.y) - viewPos.y - ((viewPos.height - changePos.height)*(vPos/100));
-  const hOffset = (changePos.x) - viewPos.x + ((viewPos.width - changePos.width)*(hPos/100));
+  const hOffset = (viewPos.x - changePos.x)  + ((viewPos.width - changePos.width)*(hPos/100));
 
   frame.style.transform = `translate(${hOffset}px, ${-vOffset}px)`;
 
@@ -83,7 +88,7 @@ function resizeText() {
   var fontFactor = (baseH / 45).toFixed(2);
   root.style.fontSize = `${fontFactor.toString()}px`;
 
-  // if window is wider than 767 and main view has expanded classs, remove the class and transition the view to the wider screen format
+  // if window is wider than 767 and main view has expanded class, remove the class and transition the view to the wider screen format
   if (window.innerWidth >= 767 && document.querySelector('.expanded')) {
     if (mainView.classList.contains('expanded')) {
       mainView.classList.remove('expanded');
@@ -98,6 +103,8 @@ function resizeText() {
     });
 
   }
+
+  // position either Dice Game or Battle elements based on Game Mode
   if (game.mode === 'pig') {
     if (init === false) {
       init = true;
@@ -110,6 +117,8 @@ function resizeText() {
   }
 }
 
+
+// position elements for the Dice ('pig') game mode
 function positionDiceGameElements() {
 
   // check if view is in expanded mode (screen is under 767px width and user has expanded a store tab)
@@ -141,19 +150,35 @@ function positionDiceGameElements() {
   // position tooltip frame
   animStates.diceSlide ? positionFrameInterior(gameView, diceTooltipFrame, 90, 50) : positionFrame(gameView, diceTooltipFrame, 90, 50);
 
+
+  // determine what to put in the 'store' frame. animStates.diceslide is in app.js and determines a state when the storeView is transitioning with a CSS transition
   if (!storeView1.classList.contains('collapsed') && !animStates.diceSlide) {
+    piggy1.style.transform = 'translate(0,0)';
     positionFrame(storeView1, player1Store);
-  } else if (!animStates.diceSlide) {
-    player1Store.style.transform = 'translate(0,0)';
+  } else if (storeView1.classList.contains('collapsed')) {
+    if (animStates.diceSlide) {
+      piggy1.style.transform = 'translate(0,0)';
+    } else {
+      player1Store.style.transform = 'translate(0,0)';
+      positionFrame(storeView1, piggy1);
+    }
   }
+
   if (!storeView2.classList.contains('collapsed') && !animStates.diceSlide) {
+    piggy2.style.transform = 'translate(0,0)';
     positionFrame(storeView2, player2Store);
-  } else if (!animStates.diceSlide) {
-    player2Store.style.transform = 'translate(0,0)';
+  } else if (storeView2.classList.contains('collapsed')) {
+    if (animStates.diceSlide) {
+      piggy2.style.transform = 'translate(0,0)';
+    } else {
+      player2Store.style.transform = 'translate(0,0)';
+      positionFrame(storeView2, piggy2);
+    }
   }
 
 }
 
+// activate event listeners
 function activateListeners() {
   storeView1.addEventListener('click', storeExpand.bind(null, storeView1));
   storeView2.addEventListener('click', storeExpand.bind(null, storeView2));
@@ -165,6 +190,7 @@ function activateListeners() {
   player2Frame.addEventListener('click', checkCollapse);
 }
 
+// called by switchPlayerBattle() in app.js to handle a turn change on mobile
 function battleExpand(playerN) {
   if (window.innerWidth > 767) {
     return;
@@ -184,6 +210,8 @@ function battleExpand(playerN) {
 
 }
 
+
+// expand a store tab based on a click or a turn change in battle mode
 function storeExpand(store) {
 
   // if not in Pig (dice) mode and battleChange boolean indicating a change of turns is due, exit function
@@ -226,6 +254,7 @@ function storeExpand(store) {
   trackAnimation(mainView);
 }
 
+// gate click event handlers based on state and handle battle mode turn changes by checking states and prompting appropriate frame collapses
 function checkCollapse() {
   if (game.mode === 'battle') {
     if (game.battleChange) {
@@ -254,7 +283,7 @@ function checkCollapse() {
   }
 }
 
-
+// collapse a store tab and give it the appropriate class for mobile views
 function storeCollapse(store) {
   if (game.mode === 'battle') {
   }
@@ -289,6 +318,8 @@ function storeCollapse(store) {
   trackAnimation(mainView);
 }
 
+
+// place appropriate frames directly in their window for css transitions so that animation isn't jumpy
 function trackAnimation(e) {
   if (inTransition) {
     return;
@@ -319,6 +350,7 @@ function trackAnimation(e) {
 
 }
 
+// end a sliding animation of a store tab for mobile view
 function endAnimation() {
   inTransition = false;
 

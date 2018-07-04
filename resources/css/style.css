@@ -762,11 +762,22 @@ button:focus {
   max-height:100%;
   height:100%;
   max-width:100%;
-  background-size: 90% 90%;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position:center;
+  background-position: center;
   background-color:rgba(50,30,50, .85);
   z-index:630;
+}
+
+.piggy-bank-1, .piggy-bank-2  {
+  height: 5.5rem;
+  width: auto;
+  padding: .3rem;
+  background-color: rgba(220, 220, 220, .8);
+  border-radius: 50%;
+  border: 1px solid rgba(30, 30, 30, .95);
+  pointer-events: none;
+
 }
 
 @media only screen and (max-width: 767px) {

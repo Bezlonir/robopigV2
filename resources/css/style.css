@@ -899,6 +899,29 @@ button:focus {
   text-align:center;
 }
 
+.battle-banner {
+  height: 20rem;
+  width: 30rem;
+  background-color: rgba(240, 240, 240, .95);
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-shadow: 1px 1px 3px 5px rgba(30, 30, 30, .9);
+  transition: bottom .3s;
+  transition-timing-function: cubic-bezier(0, 0, .6, 1.6);
+  z-index: 1200;
+}
+
+.battle-banner h1 {
+  font-family: 'Francois One', sans-serif;
+  font-size: 6rem;
+  color: rgb(30, 30, 30, .95);
+  text-align: center;
+  margin: auto;
+  transition: font-size .3s;
+  transition-timing-function: cubic-bezier(0, 0, .6, 1.6);
+}
+
 .hp-outer {
   height: 45%;
   width: 80%;
@@ -990,7 +1013,7 @@ button:focus {
   margin-top: 1rem;
   box-shadow: inset -1px -1px 1px 1px rgba(30, 30, 30, 0.4),
               inset 1px 1px 1px 1px rgba(220, 220, 220, 0.4),
-              1px -1px 1px 1px rgba(30, 30, 30, 0.6);
+              -1px -1px 1px 1px rgba(30, 30, 30, 0.6);
 }
 
 /* .pig-1-commands button: hover, .pig-2-commands button: hover {

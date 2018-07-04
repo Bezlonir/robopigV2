@@ -2,9 +2,9 @@
 // css store-1      | pig-view-1 | game-unities | ...
 // js (storeView1)  | (pigView1) | (gameView)   | ...
 //                  |            |              |
-//                  |            |              |
-//                  |            |              |
-//                  |            |              |
+// expands on click |            |              |
+// or by turn in    |            |              |
+// battle mode      |            |              |
 //                  |            |              |
 
 
@@ -28,6 +28,8 @@ var storeView2 = document.querySelector('.store-2');
 
 var piggy1 = document.querySelector('.piggy-bank-1');
 var piggy2 = document.querySelector('.piggy-bank-2');
+
+var battleBanner = document.querySelector('.battle-banner');
 
 var battleText = document.querySelector('.battle-text');
 
@@ -518,4 +520,20 @@ function positionBattleElements() {
 
   Battle.textBox.scrollTop = Battle.textBox.scrollHeight - Battle.textBox.clientHeight;
 
+}
+
+function popBattleBanner() {
+  positionFrame(gameView, battleBanner, 50, 70);
+  if (!battleBanner.classList.contains('banner-active')) {
+    battleBanner.style.bottom = '6rem';
+    battleBanner.firstElementChild.style.fontSize = '9rem';
+  }
+}
+
+function foldBattleBanner() {
+  battleBanner.style.transform = 'translate(0,0)';
+  if (battleBanner.classList.contains('banner-active')) {
+    battleBanner.style.bottom = null;
+    battleBanner.firstElementChild.style.fontSize = null;
+  }
 }

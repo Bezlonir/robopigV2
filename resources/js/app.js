@@ -55,7 +55,7 @@ var storeFronts = document.querySelectorAll('.store-item');
 
 // player objects
 var player1 = {
-  energy: 0,
+  energy: 99,
   points: 0,
   playerNum: 1,
   name: 'Pig',
@@ -63,7 +63,7 @@ var player1 = {
   energyNum: '.player-1-frame .energy-count'
 }
 var player2 = {
-  energy: 0,
+  energy: 99,
   points: 0,
   playerNum: 2,
   name: 'Pig',
@@ -502,9 +502,12 @@ function showBattle() {
 }
 
 function gameModeBattle() {
+  popBattleBanner();
   window.setTimeout(function(){
     // set the mode to battle in the game object
     game.mode = 'battle';
+
+    foldBattleBanner();;
 
     // show the battle window
     showBattle();
@@ -522,7 +525,9 @@ function gameModeBattle() {
     switchPlayerBattle()
     Battle.setHP();
 
-  },1000);
+
+
+  }, 1500);
 }
 
 // determine which buttons appear in the action bars in the view

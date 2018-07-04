@@ -56,6 +56,7 @@ resizeText();
 
 // positions frame inside target at vPos % of free vertical space and hPos % of free horizontal space (i.e. 50/50 is centered)
 function positionFrame(target, frame, vPos = 50, hPos = 50) {
+
   const viewPos = target.getBoundingClientRect();
   frame.style.transform = 'translate(0,0)';
   const changePos = frame.getBoundingClientRect();
@@ -64,6 +65,10 @@ function positionFrame(target, frame, vPos = 50, hPos = 50) {
 
   frame.style.transform = `translate(${hOffset}px, ${-vOffset}px)`;
 
+  if (animStates.diceSlide) {
+    piggy1.style.transform = 'translate(0,0)';
+    piggy2.style.transform = 'translate(0,0)';
+  }
 }
 
 
@@ -174,7 +179,7 @@ function positionDiceGameElements() {
     }
       player2Store.style.transform = 'translate(0,0)';
       positionFrame(storeView2, piggy2);
-    
+
   }
 
 }

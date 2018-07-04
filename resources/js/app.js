@@ -55,7 +55,7 @@ var storeFronts = document.querySelectorAll('.store-item');
 
 // player objects
 var player1 = {
-  energy: 99,
+  energy: 0,
   points: 0,
   playerNum: 1,
   name: 'Pig',
@@ -63,7 +63,7 @@ var player1 = {
   energyNum: '.player-1-frame .energy-count'
 }
 var player2 = {
-  energy: 99,
+  energy: 0,
   points: 0,
   playerNum: 2,
   name: 'Pig',
@@ -410,7 +410,7 @@ function toggleTurn() {
     }
     setActionBarReady();
     switchPlayerBattle();
-    
+
   }
 
 }

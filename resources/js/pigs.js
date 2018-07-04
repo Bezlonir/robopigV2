@@ -178,13 +178,13 @@ PigStats.prototype.takeTurn = function() {
     this.takeDamage(15,'RotoTooter poison cloud');
     this.poisonTurns--;
     if (this.poisonTurn === 0) {
-      Battle.addText(`<span>RoboPig ${oppNum}'s poison cloud has dispersed.</span>`);
+      Battle.addText(`<p>RoboPig ${oppNum}'s poison cloud has dispersed.</p>`);
     }
   }
   if (this.armorUp > 0) {
     this.armorUp --;
     if (this.armorUp === 0) {
-      Battle.addText(`<span>RoboPig ${this.number}'s armor fizzles out!`);
+      Battle.addText(`<p>RoboPig ${this.number}'s armor fizzles out!</p>`);
     }
   }
 }

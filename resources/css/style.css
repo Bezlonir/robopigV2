@@ -990,7 +990,7 @@ button:focus {
   margin-top: 1rem;
   box-shadow: inset -1px -1px 1px 1px rgba(30, 30, 30, 0.4),
               inset 1px 1px 1px 1px rgba(220, 220, 220, 0.4),
-              11px -1px 1px 1px rgba(30, 30, 30, 0.6);
+              1px -1px 1px 1px rgba(30, 30, 30, 0.6);
 }
 
 /* .pig-1-commands button: hover, .pig-2-commands button: hover {

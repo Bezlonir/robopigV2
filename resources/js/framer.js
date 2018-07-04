@@ -158,10 +158,11 @@ function positionDiceGameElements() {
   } else if (storeView1.classList.contains('collapsed')) {
     if (animStates.diceSlide) {
       piggy1.style.transform = 'translate(0,0)';
-    } else {
+    }
+
       player1Store.style.transform = 'translate(0,0)';
       positionFrame(storeView1, piggy1);
-    }
+
   }
 
   if (!storeView2.classList.contains('collapsed') && !animStates.diceSlide) {
@@ -170,10 +171,10 @@ function positionDiceGameElements() {
   } else if (storeView2.classList.contains('collapsed')) {
     if (animStates.diceSlide) {
       piggy2.style.transform = 'translate(0,0)';
-    } else {
+    }
       player2Store.style.transform = 'translate(0,0)';
       positionFrame(storeView2, piggy2);
-    }
+    
   }
 
 }

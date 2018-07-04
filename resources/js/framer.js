@@ -65,10 +65,7 @@ function positionFrame(target, frame, vPos = 50, hPos = 50) {
 
   frame.style.transform = `translate(${hOffset}px, ${-vOffset}px)`;
 
-  if (animStates.diceSlide) {
-    piggy1.style.transform = 'translate(0,0)';
-    piggy2.style.transform = 'translate(0,0)';
-  }
+
 }
 
 
@@ -156,7 +153,7 @@ function positionDiceGameElements() {
   animStates.diceSlide ? positionFrameInterior(gameView, diceTooltipFrame, 90, 50) : positionFrame(gameView, diceTooltipFrame, 90, 50);
 
 
-  // determine what to put in the 'store' frame. animStates.diceslide is in app.js and determines a state when the storeView is transitioning with a CSS transition
+  // determine what to put in the 'store' frame. animStates.diceslide is a boolean in framer.js and is true when the storeView is transitioning with a CSS transition
   if (!storeView1.classList.contains('collapsed') && !animStates.diceSlide) {
     piggy1.style.transform = 'translate(0,0)';
     positionFrame(storeView1, player1Store);
@@ -164,10 +161,10 @@ function positionDiceGameElements() {
     if (animStates.diceSlide) {
       piggy1.style.transform = 'translate(0,0)';
     }
-
+    if (!animStates.diceSlide) {
       player1Store.style.transform = 'translate(0,0)';
       positionFrame(storeView1, piggy1);
-
+    }
   }
 
   if (!storeView2.classList.contains('collapsed') && !animStates.diceSlide) {
@@ -177,9 +174,10 @@ function positionDiceGameElements() {
     if (animStates.diceSlide) {
       piggy2.style.transform = 'translate(0,0)';
     }
+    if (!animStates.diceSlide) {
       player2Store.style.transform = 'translate(0,0)';
       positionFrame(storeView2, piggy2);
-
+    }
   }
 
 }
@@ -226,7 +224,10 @@ function storeExpand(store) {
   }
 
   animStates.diceSlide = true;
-
+  if (game.mode === 'pig') {
+    piggy1.style.transform = 'translate(0,0)';
+    piggy2.style.transform = 'translate(0,0)';
+  }
   // if store is not collapsed (in dice mode), exit function
   if ((!store.classList.contains('collapsed') && game.mode === 'pig' ) || window.innerWidth >= 767) {
     return;
@@ -262,12 +263,15 @@ function storeExpand(store) {
 
 // gate click event handlers based on state and handle battle mode turn changes by checking states and prompting appropriate frame collapses
 function checkCollapse() {
+
+  // if checkCollapse has been called in battle mode then collapse the appropriate 'store' tab based on game.turn
   if (game.mode === 'battle') {
     if (game.battleChange) {
-      // if player1's turn
+      // if player2's turn
       if (game.turn) {
         player1Battle.style.transform = 'translate(0,0)';
         storeCollapse(storeView1);
+      // if player 1's turn
       } else {
         player2Battle.style.transform = 'translate(0,0)';
         storeCollapse(storeView2);

@@ -29,8 +29,6 @@
 --- showGameOver()
 --- linkNewGame()
 --- startNewGame()
---- hidePigStore()
---- showPigStore()
 
 
 */
@@ -45,7 +43,7 @@ var viewDice = document.querySelector('.dice');
 var hold = document.querySelectorAll('.btn-hold');
 var path = "'./resources/images/";
 
-// var storeFronts = document.querySelectorAll('.store-item');
+
 
 var tooltipBox = document.querySelector('.tooltip-info-box');
 
@@ -54,9 +52,10 @@ var gameOverScreen = document.querySelector('#game-over');
 
 var storeFronts = document.querySelectorAll('.store-item');
 
+
 // player objects
 var player1 = {
-  energy: 0,
+  energy: 99,
   points: 0,
   playerNum: 1,
   name: 'Pig',
@@ -64,7 +63,7 @@ var player1 = {
   energyNum: '.player-1-frame .energy-count'
 }
 var player2 = {
-  energy: 0,
+  energy: 99,
   points: 0,
   playerNum: 2,
   name: 'Pig',
@@ -83,6 +82,7 @@ var game = {
   // false for player 1 turn, true for player 2 turn
   turn: false,
   battleOver: false,
+  battleChange: false,
   winner: ' '
 }
 
@@ -117,7 +117,8 @@ setScoreBox(player1);
 setScoreBox(player2);
 
 // link up actionBarListeners
-//actionBarListeners();
+
+actionBarListeners();
 // Link new game button
 //linkNewGame();
 
@@ -344,7 +345,7 @@ function setEnergy(player) {
   // set the height of the container based on the energy to clip off the top of the energy bar
   energyFill.style.height = `${(player.energy / 100) * game.maxEnergy}%`;
 
-  var energyNum = document.querySelector(`${player.energyNum}`);
+  var energyNum = document.querySelector(`${player.energyNum} h4`);
 
   energyNum.innerText = `${player.energy.toString()}`;
   // if (player.energy <= 90) {
@@ -409,6 +410,7 @@ function toggleTurn() {
     }
     setActionBarReady();
     switchPlayerBattle();
+    
   }
 
 }
@@ -484,13 +486,19 @@ function setContextFilters() {
 
 
 function hideBattle() {
-  battleFrame.style.display = 'none';
-  battleFrame.firstElementChild.style.pointerEvents = 'none';
+  foldBattleMode();
+  hpToScores();
+  positionDiceGameElements();
+  //battleFrame.style.display = 'none';
+  //battleFrame.firstElementChild.style.pointerEvents = 'none';
 }
 
 function showBattle() {
-  battleFrame.style.display = 'block';
-  battleFrame.firstElementChild.style.pointerEvents = 'auto';
+  foldDiceMode();
+  scoresToHp();
+  positionBattleElements();
+  //battleFrame.style.display = 'block';
+  //battleFrame.firstElementChild.style.pointerEvents = 'auto';
 }
 
 function gameModeBattle() {
@@ -501,8 +509,8 @@ function gameModeBattle() {
     // show the battle window
     showBattle();
 
-    // hide the pig store
-    hidePigStore();
+    // remove score from player frames and put in HP bars
+    scoresToHp();
 
     // set the action bars with the abilities earned
     populateActionBars();
@@ -596,7 +604,7 @@ function actionBarListeners() {
   actionBar1.forEach(function(button){
     var buttonIndex = actionBar1dex.indexOf(button);
     actionBar1[buttonIndex].addEventListener('mouseover', function(){
-      var tooltipRef = document.querySelector('.battle-wrapper .tooltip-info-box');
+      var tooltipRef = document.querySelector('.tooltip-info-box');
       var tipText = Battle.pig1Data.hoverText[buttonIndex];
       tooltipRef.innerHTML = tipText;
     });
@@ -664,7 +672,7 @@ function actionBarListeners() {
   actionBar2.forEach(function(button){
     var buttonIndex = actionBar2dex.indexOf(button);
     actionBar2[buttonIndex].addEventListener('mouseover', function(){
-      var tooltipRef = document.querySelector('.battle-wrapper .tooltip-info-box');
+      var tooltipRef = document.querySelector('.tooltip-info-box');
       var tipText = Battle.pig2Data.hoverText[buttonIndex];
       tooltipRef.innerHTML = tipText;
     });
@@ -864,6 +872,16 @@ function switchPlayerBattle() {
       p2.classList.toggle('battle-active');
     }
   }
+
+  //check if screen needs adjusting for under 767px
+  if (!game.turn) {
+    game.battleChange = true;
+    battleExpand(1);
+  } else {
+    game.battleChange = true;
+    battleExpand(2);
+  }
+  setTimeout(function() {game.battleChange = false;}, 100);
 }
 
 function announceWinner() {
@@ -940,17 +958,9 @@ function startNewGame() {
 
   hideBattle();
   hideGameOver();
-  showPigStore();
+  positionDiceGameElements();
   setEnergy(player1);
   setEnergy(player2);
   setScoreBox(player1);
   setScoreBox(player2);
-}
-
-function hidePigStore() {
-  pigStore.style.visibility = 'hidden';
-}
-
-function showPigStore() {
-  pigStore.style.visibility = 'visible';
 }

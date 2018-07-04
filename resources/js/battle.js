@@ -9,18 +9,31 @@ Battle.textCount = 0;
 Battle.addText = function(textToAdd) {
   Battle.textBox.innerHTML +=  textToAdd;
   Battle.textCount++;
-  Battle.textBox.scrollTop = Battle.textBox.scrollHeight;
+
   if (Battle.textCount > 30) {
     Battle.textBox.removeChild(Battle.textBox.childNodes[0]);
   }
+  Battle.textBox.scrollTop = Battle.textBox.scrollHeight - Battle.textBox.clientHeight;
+
 }
 
 // set the HP for both pigs in battle mode
 Battle.setHP = function() {
-  var hp1 = document.querySelector('.pig-1-commands h3');
-  var hp2 = document.querySelector('.pig-2-commands h3');
-  hp1.innerText = `HP: ${Pigs.pig1Stats.hp}/${Pigs.pig1Stats.maxhp} `;
-  hp2.innerText = `HP: ${Pigs.pig2Stats.hp}/ ${Pigs.pig2Stats.maxhp}`;
+  var hp1 = document.querySelector('.hp-1 .hp-inside');
+  var hp2 = document.querySelector('.hp-2 .hp-inside');
+  var label1 = document.querySelector('.player-1-frame .player-current-label');
+  var label2 = document.querySelector('.player-2-frame .player-current-label');
+
+  var pig1HPfill = (Pigs.pig1Stats.hp / Pigs.pig1Stats.maxhp) * 100;
+  var pig2HPfill = (Pigs.pig2Stats.hp / Pigs.pig2Stats.maxhp) * 100;
+
+  label1.innerText = `HP: ${Pigs.pig1Stats.hp}/ ${Pigs.pig1Stats.maxhp}`;
+  label2.innerText = `HP: ${Pigs.pig2Stats.hp}/ ${Pigs.pig2Stats.maxhp}`;
+
+  hp1.style.width = `${pig1HPfill}%`;
+  hp2.style.width = `${pig2HPfill}%`;
+  // hp1.innerText = `HP: ${Pigs.pig1Stats.hp}/${Pigs.pig1Stats.maxhp} `;
+  // hp2.innerText = `HP: ${Pigs.pig2Stats.hp}/ ${Pigs.pig2Stats.maxhp}`;
 }
 
 // Pig 1 data accessed from button event listeners in battle mode

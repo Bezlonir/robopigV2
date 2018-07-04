@@ -158,7 +158,7 @@ body {
 .player-name-1 h3, .player-name-2 h3 {
   font-family:'Allegreya', sans-serif;
   font-weight: 500;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   padding-top: 0.2rem;
 }
 
@@ -414,9 +414,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: inset 0px 0px 6px 3px rgba(80, 180, 80, 0);
+    transition: box-shadow 0.2s;
 }
 
-/* .active { background-color: #97f797; } */
+.active { box-shadow: inset 0px 0px 8px 4px rgba(120, 180, 120, 0.6); }
 .active h3 { font-weight: 1000; }
 
 .active .player-name::after {
@@ -514,7 +516,7 @@ button:focus {
     100% { left: 1px; top: -2px; }
 }
 
-@keyframes shakeRev {
+/* @keyframes shakeRev {
     0% { transform: translate(-1px, 1px) translateX(50%) rotate(0deg); }
     10% { transform: translate(-1px, -2px) translateX(50%) rotate(-1deg); }
     20% { transform: translate(-3px, 0px) translateX(50%) rotate(1deg); }
@@ -526,7 +528,7 @@ button:focus {
     80% { transform: translate(-1px, -1px) translateX(50%) rotate(1deg); }
     90% { transform: translate(1px, 2px) translateX(50%) rotate(0deg); }
     100% { transform: translate(1px, -2px) translateX(50%) rotate(-1deg); }
-}
+} */
 
 .winner { background-color: #f7f7f7; }
 .winner .player-name { font-weight: 300; color: #EB4D4D; }
@@ -784,16 +786,16 @@ button:focus {
   }
 
   .tooltip-info-box {
-    height: 16rem;
-    width: 18rem;
+    height: 20rem;
+    width: 24rem;
   }
 
   .tooltip-info-box p, .tooltip-info-box span {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
   }
 
   .tooltip-info-box h3 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -886,6 +888,29 @@ button:focus {
   text-align:center;
 }
 
+.hp-outer {
+  height: 45%;
+  width: 80%;
+  border: 1px solid rgba(60,60,60,.9);
+  border-radius:2rem;
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  background-color: rgb(80,80,80);
+  overflow:hidden;
+}
+
+
+.hp-inside {
+  background: linear-gradient(-170deg, rgb(200,140,120) 0%, rgb(220,100,100) 100%);
+  display: flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  width:70%;
+  z-index:16;
+}
+
 .battle-wrapper {
   width:84%;
   height:32rem;
@@ -938,28 +963,42 @@ button:focus {
 }
 
 .pig-1-commands, .pig-2-commands {
-  height: 16rem;
-  margin-top:4rem;
-  width: 8rem;
-  background-color:rgba(140,140,140,.8);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  height: 30rem;
+  width: 16rem;
+  background-color: rgba(140,140,140,.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 
-.battle-active {
+.pig-1-commands button, .pig-2-commands button {
+  height: 4rem;
+  width: 12rem;
+  font-size: 1.6rem;
+  margin-top: 1rem;
+  box-shadow: inset -1px -1px 1px 1px rgba(30, 30, 30, 0.4),
+              inset 1px 1px 1px 1px rgba(220, 220, 220, 0.4),
+              -1px 1px 1px 1px rgba(30, 30, 30, 0.6);
+}
+
+/* .pig-1-commands button: hover, .pig-2-commands button: hover {
+
+} */
+
+
+/* .battle-active {
   background-color:rgba(120,200,120,.8);
-}
-
+} */
+/*
 .battle-wrapper .tooltip-info-box {
   margin-top:2rem;
-}
+} */
 
 .battle-text {
-  margin-top:4rem;
   padding:.2rem;
-  height: 14rem;
-  width:inherit;
+  height: 18rem;
+  width: 24rem;
   max-width:100%;
   background-color:rgba(20,30,20,.95);
   color:rgba(220,220,225,.95);
@@ -973,9 +1012,15 @@ button:focus {
 }
 
 .battle-text p {
-  margin-bottom:.3rem;
+  font-size: 1.2rem;
 }
 
+@media only screen and (max-width: 767px) {
+  .battle-text p {
+    font-size: 1.6rem;
+    line-height:1.6rem;
+  }
+}
 
 /*-------------------------------
 ********game over styling

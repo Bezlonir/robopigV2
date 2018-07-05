@@ -18,7 +18,7 @@
 
 - global variable definitions
 - initial conditions
-- positionFrame()               
+- positionFrame()
 - positionFrameInterior()
 - resizeText()
 - positionDiceGameElements()
@@ -128,8 +128,10 @@ function positionFrameInterior(target, frame, vPos = 50, hPos = 50) {
 // reset the root font size
 function resizeText() {
   var baseH = window.innerHeight;
+  var baseW = window.innerWidth;
+  var hyp = Math.sqrt((baseH * baseH) + (baseW * baseW))
   var root = document.querySelector('html');
-  var fontFactor = (baseH / 45).toFixed(2);
+  var fontFactor = (hyp / 115).toFixed(2);
   root.style.fontSize = `${fontFactor.toString()}px`;
 
   // if window is wider than 767 and main view has expanded class, remove the class and transition the view to the wider screen format

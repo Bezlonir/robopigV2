@@ -1,3 +1,5 @@
+//            ----------frame diagram---------
+
 //                          mainView
 // css store-1      | pig-view-1 | game-unities | ...
 // js (storeView1)  | (pigView1) | (gameView)   | ...
@@ -6,6 +8,40 @@
 // or by turn in    |            |              |
 // battle mode      |            |              |
 //                  |            |              |
+
+
+/*  -------------------------------------
+    -------**** Directory **** ----------
+    -------------------------------------
+
+('fold' scripts put away a view. 'pop' scripts present a view)
+
+- global variable definitions
+- initial conditions
+- positionFrame()               
+- positionFrameInterior()
+- resizeText()
+- positionDiceGameElements()
+- activateListeners()
+- battleExpand()
+- storeExpand()
+- checkCollapse()
+- storeCollapse()
+- trackAnimation()
+- endAnimation()
+- socketFrame()
+- foldDiceMode()
+- foldBattleMode()
+- scoresToHp()
+- hpToScores()
+- positionBattleElements()
+- popBattleBanner()
+- foldBattleBanner()
+- popGameOver()
+- foldGameOver()
+
+
+*/
 
 
 var mainView = document.querySelector('#main-view');
@@ -45,6 +81,9 @@ var animStates = {
   diceSlide: false,
   slidePos: false
 }
+// ----------------------------------------
+// ----**** Set initial conditions ****----
+// ----------------------------------------
 
 activateListeners();
 
@@ -195,6 +234,9 @@ function activateListeners() {
   pigView2.addEventListener('click', checkCollapse);
   player1Frame.addEventListener('click', checkCollapse);
   player2Frame.addEventListener('click', checkCollapse);
+  diceTooltipFrame.addEventListener('click', checkCollapse);
+  diceFrame.addEventListener('click', checkCollapse);
+
 }
 
 // called by switchPlayerBattle() in app.js to handle a turn change on mobile

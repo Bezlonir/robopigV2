@@ -772,7 +772,7 @@ button:focus {
 .piggy-bank-1, .piggy-bank-2  {
   height: 5.5rem;
   width: auto;
-  padding: .3rem;
+  padding: .1rem;
   background-color: rgba(220, 220, 220, .8);
   border-radius: 50%;
   border: 1px solid rgba(30, 30, 30, .95);

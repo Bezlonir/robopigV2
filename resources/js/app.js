@@ -120,7 +120,7 @@ setScoreBox(player2);
 
 actionBarListeners();
 // Link new game button
-//linkNewGame();
+linkNewGame();
 
 // Hide Battle and Game Over screens (shown on load for event listeners)
 //hideBattle();
@@ -603,6 +603,66 @@ function actionBarListeners() {
   });
   actionBar2.forEach(function(button){
     button.style.display = 'block';
+  });
+
+  window.addEventListener('keypress', function(e){
+    if (game.mode === 'pig') {
+
+      if (e.keyCode === 32 && !(viewDice.classList.contains('dice-inactive'))) {
+        viewDice.click();
+      } else if (e.keyCode === 13) {
+        var charBtns = document.querySelectorAll('.btn-hold')
+        if (!game.turn) {
+          charBtns[0].click();
+        } else {
+          charBtns[1].click();
+        }
+      }
+    }
+
+    if (game.mode !== 'battle') {
+      return;
+    }
+
+    switch (e.key.toLowerCase()) {
+      case 'a':
+        if (!game.turn) {
+          actionBar1[0].click();
+        } else {
+          actionBar2[0].click();
+        }
+        break;
+      case 'r':
+        if (!game.turn) {
+          actionBar1[1].click();
+        } else {
+          actionBar2[1].click();
+        }
+        break;
+      case 't':
+        if (!game.turn) {
+          actionBar1[2].click();
+        } else {
+          actionBar2[2].click();
+        }
+        break;
+      case 'a':
+        if (!game.turn) {
+          actionBar1[3].click();
+        } else {
+          actionBar2[3].click();
+        }
+        break;
+      case 'c':
+        if (!game.turn) {
+          actionBar1[4].click();
+        } else {
+          actionBar2[4].click();
+        }
+        break;
+      default:
+        break
+    }
   });
 
   // add event listeners to buttons on action bar for pig 2

@@ -471,6 +471,10 @@ button:focus {
     font-size: 3rem;
     height: 20%;
     width: 90%;
+    text-shadow: 1px 1px rgba(30, 30, 30, .9),
+                -1px 1px rgba(30, 30, 30, .9),
+                1px -1px rgba(30, 30, 30, .9),
+                -1px -1px rgba(30, 30, 30, .9);
   }
 }
 

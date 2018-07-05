@@ -784,8 +784,8 @@ button:focus {
 
 .battle-text {
   padding:.2rem;
-  height: 18rem;
-  width: 24rem;
+  height: 20rem;
+  width: 16rem;
   max-width:100%;
   background-color:rgba(20,30,20,.95);
   color:rgba(220,220,225,.95);
@@ -803,6 +803,11 @@ button:focus {
 }
 
 @media only screen and (max-width: 767px) {
+  .battle-text {
+    height: 18rem;
+    width: 24rem;
+  }
+
   .battle-text p {
     font-size: 1.6rem;
     line-height:1.6rem;

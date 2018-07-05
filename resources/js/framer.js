@@ -199,7 +199,7 @@ function activateListeners() {
 
 // called by switchPlayerBattle() in app.js to handle a turn change on mobile
 function battleExpand(playerN) {
-  if (window.innerWidth > 767) {
+  if (window.innerWidth > 767 || game.battleOver) {
     return;
   }
 
@@ -540,9 +540,11 @@ function foldBattleBanner() {
 }
 
 function popGameOver() {
-  positionFrame(gameView, gameOverFrame);
+  var bTemp = document.querySelector('body');
+  positionFrame(bTemp, gameOverFrame);
 }
 
 function foldGameOver() {
-  positionFrame(objectPool, gameOverFrame);
+  gameOverFrame.style.transform = 'translate(0,0)';
+  // positionFrame(objectPool, gameOverFrame);
 }

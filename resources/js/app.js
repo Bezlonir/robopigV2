@@ -388,6 +388,13 @@ function positionChargeButton() {
 // changes which player's turn it is
 function toggleTurn() {
   // turnNum is used in concatenation to reference a player's panel, as the only difference between their class names is a number in the name
+
+  if (game.battleOver) {
+    // hideBattle();
+    announceWinner();
+    return;
+  }
+
   var turnNum = 0;
   if (!game.turn) turnNum = 1; else turnNum = 2;
   // toggle the 'active' class off in the player's panel whose turn is ending
@@ -405,12 +412,11 @@ function toggleTurn() {
     // set the charge button visibility
     positionChargeButton();
   } else if (game.mode === gameModes[1]) { //if game.mode = 'battle'
-    if (game.battleOver) {
-      hideBattle();
-      announceWinner();
+
+    if (game.started) {
+      setActionBarReady();
+      switchPlayerBattle();
     }
-    setActionBarReady();
-    switchPlayerBattle();
 
   }
 
@@ -624,7 +630,7 @@ function actionBarListeners() {
       }
     }
 
-    if (game.mode !== 'battle') {
+    if (game.mode !== 'battle' || game.battleOver) {
       return;
     }
 
@@ -1026,7 +1032,8 @@ function startNewGame() {
 
   hideBattle();
   hideGameOver();
-  positionDiceGameElements();
+  checkCollapse();
+  //positionDiceGameElements();
   setEnergy(player1);
   setEnergy(player2);
   setScoreBox(player1);

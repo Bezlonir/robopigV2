@@ -83,6 +83,7 @@ var game = {
   turn: false,
   battleOver: false,
   battleChange: false,
+  battleTransition: false,
   winner: ' '
 }
 
@@ -503,6 +504,7 @@ function showBattle() {
 
 function gameModeBattle() {
   popBattleBanner();
+  game.battleTransition = true;
   window.setTimeout(function(){
     // set the mode to battle in the game object
     game.mode = 'battle';
@@ -525,7 +527,7 @@ function gameModeBattle() {
     switchPlayerBattle()
     Battle.setHP();
 
-
+    game.battleTransition = false;
 
   }, 1500);
 }
@@ -609,7 +611,9 @@ function actionBarListeners() {
     if (game.mode === 'pig') {
 
       if (e.keyCode === 32 && !(viewDice.classList.contains('dice-inactive'))) {
-        viewDice.click();
+        if (!game.battleTransition) {
+          viewDice.click();
+        }
       } else if (e.keyCode === 13) {
         var charBtns = document.querySelectorAll('.btn-hold')
         if (!game.turn) {
@@ -646,7 +650,7 @@ function actionBarListeners() {
           actionBar2[2].click();
         }
         break;
-      case 'a':
+      case 'm':
         if (!game.turn) {
           actionBar1[3].click();
         } else {
@@ -956,13 +960,12 @@ function announceWinner() {
 }
 
 function hideGameOver() {
-  gameOverScreen.style.display = 'none';
-  gameOverScreen.style.pointerEvents = 'none';
+  foldGameOver();
 }
 
 function showGameOver() {
-  gameOverScreen.style.display = 'block';
-  gameOverScreen.style.pointerEvents = 'auto';
+  foldBattleMode();
+  popGameOver();
   game.started = false;
 }
 

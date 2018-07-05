@@ -1072,10 +1072,12 @@ button:focus {
 }
 
 .game-over-info-box {
-  height: 20rem;
-  background-color:rgba(80,80,80,1);
-  color:rgba(255,255,255,.8);
-  width:80%;
+  height: 40rem;
+  background-color:rgba(230, 230, 230,.8);
+  color:rgba(30, 30, 30, .9);
+  width:90%;
+  position: relative;
+  z-index: 400;
 
   text-align:center;
   display:flex;
@@ -1086,30 +1088,31 @@ button:focus {
   margin-right:auto;
 }
 
-#game-over h2, #game-over h3 {
+.game-over-info-box h2, .game-over-info-box h3 {
   font-family:'Francois One';
-  background-color:inherit;
-  color:rgba(255,255,255,.8);
+  background-color: rgba(0,0,0,0);
   margin-bottom:1rem;
 }
 
-#game-over h2 {
+.game-over-info-box h2 {
   font-size:3rem;
+  color: rgba(30, 30, 30, .9);
 }
 
-#game-over h3 {
+.game-over-info-box h3 {
   font-size:2rem;
+  color: rgba(30, 120, 30, .9);
 }
 
-#game-over button {
-  background-color:rgba(180,180,180,.9);
-  color:rgb(60,60,60,.8);
-  width:10rem;
-  height:3rem;
+.game-over-info-box button {
+  background-color:rgba(80,80,80,.9);
+  color:rgb(230, 230, 230, .9);
+  width:16rem;
+  height:6rem;
   margin-right:auto;
   margin-left:auto;
   font-family:'Alegreyal', serif;
-  font-size:1.5rem;
+  font-size:2rem;
   padding:.4rem;
 }
 

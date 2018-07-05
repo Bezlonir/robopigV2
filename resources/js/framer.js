@@ -36,6 +36,7 @@ var battleText = document.querySelector('.battle-text');
 var player1Battle = document.querySelector('.pig-1-commands');
 var player2Battle = document.querySelector('.pig-2-commands');
 
+var gameOverFrame = document.querySelector('.game-over-info-box');
 
 var inTransition = false;
 var init = false;
@@ -536,4 +537,12 @@ function foldBattleBanner() {
     battleBanner.style.bottom = null;
     battleBanner.firstElementChild.style.fontSize = null;
   }
+}
+
+function popGameOver() {
+  positionFrame(gameView, gameOverFrame);
+}
+
+function foldGameOver() {
+  positionFrame(objectPool, gameOverFrame);
 }

@@ -812,6 +812,8 @@ function actionBarListeners() {
   });
 }
 
+
+// sets the color on action bar buttons that indicates whether abilities can be used
 function setActionBarReady() {
 
   actionBar1.forEach(function(button){
@@ -848,12 +850,13 @@ function setActionBarReady() {
           if (player1.energy < 25 || Pigs.pig1Stats.currentTurnsToArmor > 0) {
             if (!button.classList.contains('trop')) {
               button.classList.toggle('trop');
-            } else if (player1.energy >= 25 && Pigs.pig1Stats.currentTurnsToArmor === 0) {
-              if (button.classList.contains('trop')) {
-                button.classList.toggle('trop');
-              }
+            }
+          } else if (player1.energy >= 25 && Pigs.pig1Stats.currentTurnsToArmor === 0) {
+            if (button.classList.contains('trop')) {
+              button.classList.toggle('trop');
             }
           }
+          
           break;
         case 4:
           if (Pigs.pig1Stats.currentTurnsToCupcake > 0) {

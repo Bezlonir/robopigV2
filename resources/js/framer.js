@@ -30,6 +30,7 @@
 - trackAnimation()
 - endAnimation()
 - socketFrame()
+- foldEle()
 - foldDiceMode()
 - foldBattleMode()
 - scoresToHp()
@@ -100,12 +101,14 @@ resizeText();
 function positionFrame(target, frame, vPos = 50, hPos = 50) {
 
   const viewPos = target.getBoundingClientRect();
-  frame.style.transform = 'translate(0,0)';
+  foldEle(frame);
   const changePos = frame.getBoundingClientRect();
   const vOffset = (changePos.top) - viewPos.top - ((viewPos.height - changePos.height)*(vPos/100));
   const hOffset = (viewPos.left - changePos.left) + ((viewPos.width - changePos.width)*(hPos/100));
 
   frame.style.transform = `translate(${hOffset}px, ${-vOffset}px)`;
+  frame.style.msTransform = `translate(${hOffset}px, ${-vOffset}px)`;
+  frame.style.webkitTransform = `translate(${hOffset}px, ${-vOffset}px)`;
 
 
 }
@@ -115,13 +118,15 @@ function positionFrame(target, frame, vPos = 50, hPos = 50) {
 function positionFrameInterior(target, frame, vPos = 50, hPos = 50) {
 
   const viewPos = target.getBoundingClientRect();
-  frame.style.transform = 'translate(0,0)';
+  foldEle(frame);
   const changePos = frame.getBoundingClientRect();
 
   const vOffset = (changePos.y) - viewPos.y - ((viewPos.height - changePos.height)*(vPos/100));
   const hOffset = (viewPos.x - changePos.x)  + ((viewPos.width - changePos.width)*(hPos/100));
 
   frame.style.transform = `translate(${hOffset}px, ${-vOffset}px)`;
+  frame.style.msTransform = `translate(${hOffset}px, ${-vOffset}px)`;
+  frame.style.webkitTransform = `translate(${hOffset}px, ${-vOffset}px)`;
 
 }
 
@@ -199,27 +204,27 @@ function positionDiceGameElements() {
 
   // determine what to put in the 'store' frame. animStates.diceslide is a boolean in framer.js and is true when the storeView is transitioning with a CSS transition
   if (!storeView1.classList.contains('collapsed') && !animStates.diceSlide) {
-    piggy1.style.transform = 'translate(0,0)';
+    foldEle(piggy1);
     positionFrame(storeView1, player1Store);
   } else if (storeView1.classList.contains('collapsed')) {
     if (animStates.diceSlide) {
-      piggy1.style.transform = 'translate(0,0)';
+      foldEle(piggy1);
     }
     if (!animStates.diceSlide) {
-      player1Store.style.transform = 'translate(0,0)';
+      foldEle(player1Store);
       positionFrame(storeView1, piggy1);
     }
   }
 
   if (!storeView2.classList.contains('collapsed') && !animStates.diceSlide) {
-    piggy2.style.transform = 'translate(0,0)';
+    foldEle(piggy2);
     positionFrame(storeView2, player2Store);
   } else if (storeView2.classList.contains('collapsed')) {
     if (animStates.diceSlide) {
-      piggy2.style.transform = 'translate(0,0)';
+      foldEle(piggy2);
     }
     if (!animStates.diceSlide) {
-      player2Store.style.transform = 'translate(0,0)';
+      foldEle(player2Store);
       positionFrame(storeView2, piggy2);
     }
   }
@@ -272,8 +277,8 @@ function storeExpand(store) {
 
   animStates.diceSlide = true;
   if (game.mode === 'pig') {
-    piggy1.style.transform = 'translate(0,0)';
-    piggy2.style.transform = 'translate(0,0)';
+    foldEle(piggy1);
+    foldEle(piggy2);
   }
   // if store is not collapsed (in dice mode), exit function
   if ((!store.classList.contains('collapsed') && game.mode === 'pig' ) || window.innerWidth >= 767) {
@@ -316,11 +321,11 @@ function checkCollapse() {
     if (game.battleChange) {
       // if player2's turn
       if (game.turn) {
-        player1Battle.style.transform = 'translate(0,0)';
+        foldEle(player1Battle);
         storeCollapse(storeView1);
       // if player 1's turn
       } else {
-        player2Battle.style.transform = 'translate(0,0)';
+        foldEle(player2Battle);
         storeCollapse(storeView2);
       }
 
@@ -330,10 +335,10 @@ function checkCollapse() {
   if (game.mode === 'pig') {
     if (document.querySelector('.expanded')) {
       if (document.querySelector('.shift-left')) {
-        player2Store.style.transform = 'translate(0,0)';
+        foldEle(player2Store);
         storeCollapse(storeView2);
       } else {
-        player1Store.style.transform = 'translate(0,0)';
+        foldEle(player1Store);
         storeCollapse(storeView1);
       }
     }
@@ -386,8 +391,8 @@ function trackAnimation(e) {
     if (animStates.diceSlide && !animStates.slidePos) {
       socketFrame(pigView1, player1Frame);
       socketFrame(pigView2, player2Frame);
-      socketFrame(gameView, diceTooltipFrame);
       socketFrame(gameView, diceFrame);
+      socketFrame(gameView, diceTooltipFrame);
 
       positionDiceGameElements();
       animStates.slidePos = true;
@@ -444,28 +449,31 @@ function socketFrame(target, frame) {
   target.append(frame);
 }
 
+// remove all translate properties from element, thus removing any object from the view that is in the object pool
+function foldEle(ele) {
+  ele.style.transform = 'translate(0,0)';
+  ele.style.msTransform = 'translate(0,0)';
+  ele.style.webkitTransform = 'translate(0,0)';
+}
+
 function foldDiceMode() {
-  player1Frame.style.transform = 'translate(0,0)';
-  player2Frame.style.transform = 'translate(0,0)';
-  player1Store.style.transform = 'translate(0,0)';
-  player2Store.style.transform = 'translate(0,0)';
-  diceFrame.style.transform = 'translate(0,0)';
-  diceTooltipFrame.style.transform = 'translate(0,0)';
-  piggy1.style.transform = 'translate(0,0)';
-  piggy2.style.transform = 'translate(0,0)';
-  // socketFrame(objectPool, player1Frame);
-  // socketFrame(objectPool, player2Frame);
+  foldEle(player1Frame);
+  foldEle(player2Frame);
+  foldEle(player1Store);
+  foldEle(player2Store);
+  foldEle(diceFrame);
+  foldEle(diceTooltipFrame);
+  foldEle(piggy1);
+  foldEle(piggy2);
 }
 
 function foldBattleMode() {
-  player1Frame.style.transform = 'translate(0,0)';
-  player2Frame.style.transform = 'translate(0,0)';
-  player1Battle.style.transform = 'translate(0,0)';
-  player2Battle.style.transform = 'translate(0,0)';
-  battleText.style.transform = 'translate(0,0)';
-  diceTooltipFrame.style.transform = 'translate(0,0)';
-  // socketFrame(objectPool, player1Frame);
-  // socketFrame(objectPool, player2Frame);
+  foldEle(player1Frame);
+  foldEle(player2Frame);
+  foldEle(player1Battle);
+  foldEle(player2Battle);
+  foldEle(battleText);
+  foldEle(diceTooltipFrame);
 }
 
 // move scores to objectPool and put hp bars in player frames
@@ -555,12 +563,12 @@ function positionBattleElements() {
   if (!storeView1.classList.contains('collapsed') && !animStates.diceSlide) {
     positionFrame(storeView1, player1Battle);
   } else if (!animStates.diceSlide) {
-    player1Battle.style.transform = 'translate(0,0)';
+    foldEle(player1Battle);
   }
   if (!storeView2.classList.contains('collapsed') && !animStates.diceSlide) {
     positionFrame(storeView2, player2Battle);
   } else if (!animStates.diceSlide) {
-    player2Battle.style.transform = 'translate(0,0)';
+    foldEle(player2Battle);
   }
 
   Battle.textBox.scrollTop = Battle.textBox.scrollHeight - Battle.textBox.clientHeight;
@@ -576,7 +584,7 @@ function popBattleBanner() {
 }
 
 function foldBattleBanner() {
-  battleBanner.style.transform = 'translate(0,0)';
+  foldEle(battleBanner);
   if (battleBanner.classList.contains('banner-active')) {
     battleBanner.style.bottom = null;
     battleBanner.firstElementChild.style.fontSize = null;
@@ -589,6 +597,5 @@ function popGameOver() {
 }
 
 function foldGameOver() {
-  gameOverFrame.style.transform = 'translate(0,0)';
-  // positionFrame(objectPool, gameOverFrame);
+  foldEle(gameOverFrame);
 }
